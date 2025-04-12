@@ -6,13 +6,14 @@
 /*   By: idiaz-ca <idiaz-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 12:44:41 by idiaz-ca          #+#    #+#             */
-/*   Updated: 2025/04/10 16:34:59 by idiaz-ca         ###   ########.fr       */
+/*   Updated: 2025/04/12 15:35:12 by idiaz-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <ctype.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 int	main(void)
@@ -272,18 +273,81 @@ int	main(void)
 		printf("No se encontró el carácter\n");
 
 	printf("\n");
-	printf("COMPROBACION CON FUNCION STRCHR \n");
+	printf("COMPROBACION CON FUNCION STRRCHR \n");
 	ptr = strrchr(texto, 'm');
-	printf("Comprobacion con mi propia funcion\n");
+	printf("Comprobacion con la funcion original\n");
 	if (ptr != NULL)
 		printf("Encontrado: %s\n", ptr); // Imprime "mundo"
 	else
 		printf("No se encontró el carácter\n");
 	ptr2 = ft_strrchr(texto2, 'm');
-	printf("Comprobacion con la funcion original\n");
+	printf("Comprobacion con mi propia funcion\n");
 	if (ptr2 != NULL)
 		printf("Encontrado: %s\n", ptr2); // Imprime "mundo"
 	else
 		printf("No se encontró el carácter\n");
+
+	printf("\n");
+	printf("COMPROBACION CON FUNCION STRNCMP \n");
+	unsigned int length = 3;
+	char str8[] = "abz";
+	char str9[] = "aba";
+	int n = ft_strncmp(str8, str9, length);
+	int n2 = strncmp(str8, str9, length);
+	printf("Comprobacion con la funcion original\n");
+	printf("%i\n", n2);
+	printf("Comprobacion con mi propia funcion\n");
+	printf("%i\n", n);
+
+	printf("\n");
+	printf("COMPROBACION CON FUNCION FT_MEMCHR \n");
+	char str10[] = "Hola mundo";
+	char *ptr3;
+	char *ptr4;
+	printf("Comprobacion con la funcion original\n");
+	// Buscamos la letra 'm' en los primeros 10 bytes
+	ptr3 = memchr(str10, 'm', 10);
+	if (ptr != NULL)
+		printf("Encontrado: %s\n", ptr3); // Debería imprimir: "mundo"
+	else
+		printf("No se encontró el carácter.\n");
+	printf("Comprobacion con mi propia funcion\n");
+	// Buscamos la letra 'm' en los primeros 10 bytes
+	ptr4 = ft_memchr(str10, 'm', 10);
+	if (ptr != NULL)
+		printf("Encontrado: %s\n", ptr4); // Debería imprimir: "mundo"
+	else
+		printf("No se encontró el carácter.\n");
+
+	printf("\n");
+	printf("COMPROBACION CON FUNCION FT_MEMCMP \n");
+	char s4[] = "Hola\0mundo";
+	char s5[] = "Hola\0zorro";
+	printf("Comprobacion con la funcion original\n");
+	printf("memcmp: %d\n", memcmp(s4, s5, 10));
+	printf("Comprobacion con mi propia funcion\n");
+	printf("ft_memcmp: %d\n", ft_memcmp(s4, s5, 10));
+
+	printf("\n");
+	printf("COMPROBACION CON FUNCION FT_STRNSTR \n");
+	char *big = "Hola mundo bonito!";
+	char *little = "mun";
+	printf("Comprobacion con mi propia funcion(la funcion original no la tenemos incluida)\n");
+	char *resultado = ft_strnstr(big, little, 10);
+	if (resultado)
+		printf("Encontrado: %s\n", resultado); // Debería imprimir: "mundo!"
+	else
+		printf("No encontrado.\n");
+
+	printf("\n");
+	printf("COMPROBACION CON FUNCION FT_ATOI \n");
+	printf("Resultado ft_atoi: %d\n", ft_atoi("-7"));
+	printf("Resultado atoi: %d\n", atoi("-7"));
+	printf("Resultado ft_atoi: %d\n", ft_atoi("--7"));
+	printf("Resultado atoi: %d\n", atoi("--7"));
+	printf("Resultado ft_atoi: %d\n", ft_atoi("    7"));
+	printf("Resultado atoi: %d\n", atoi("    7"));
+	printf("Resultado ft_atoi: %d\n", ft_atoi("+7"));
+	printf("Resultado atoi: %d\n", atoi("+7"));
 	return (0);
 }

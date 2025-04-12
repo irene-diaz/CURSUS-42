@@ -6,16 +6,14 @@ char	*ft_strrchr(const char *s, int c)
 	size_t	lon;
 
 	lon = ft_strlen(s);
-	while (s[lon])
+	while (lon >= 0)
 	{
-		if (*s == (char)c)
+		if (s[lon] == (char)c)
 		{
-			return ((char *)s);
+			return ((char *)(s + lon));
 		}
 		lon--;
 	}
-	if (*s == (char)c)
-		return ((char *)s);
 	return (NULL);
 }
 
