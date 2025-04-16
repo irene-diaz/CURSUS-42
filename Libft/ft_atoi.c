@@ -6,7 +6,7 @@
 /*   By: idiaz-ca <idiaz-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 14:55:31 by idiaz-ca          #+#    #+#             */
-/*   Updated: 2025/04/16 17:13:41 by idiaz-ca         ###   ########.fr       */
+/*   Updated: 2025/04/16 19:26:00 by idiaz-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_atoi(const char *nptr)
 	int	i;
 	int	sign;
 	int	result;
-	
+
 	result = 0;
 	sign = 1;
 	i = 0;

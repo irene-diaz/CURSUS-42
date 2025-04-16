@@ -6,13 +6,13 @@
 /*   By: idiaz-ca <idiaz-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 13:05:35 by idiaz-ca          #+#    #+#             */
-/*   Updated: 2025/04/09 12:36:26 by idiaz-ca         ###   ########.fr       */
+/*   Updated: 2025/04/16 19:19:41 by idiaz-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_isdigit(char c)
+int	ft_isdigit(int c)
 {
 	if (c >= '0' && c <= '9')
 	{
