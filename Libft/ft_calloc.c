@@ -1,32 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: idiaz-ca <idiaz-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/12 13:07:01 by idiaz-ca          #+#    #+#             */
-/*   Updated: 2025/04/16 13:40:43 by idiaz-ca         ###   ########.fr       */
+/*   Created: 2025/04/14 10:58:06 by idiaz-ca          #+#    #+#             */
+/*   Updated: 2025/04/16 13:35:20 by idiaz-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <string.h>
+#include <stdlib.h>
 
-void	*ft_memchr(const void *s, int c, size_t n)
+void	*ft_calloc(size_t nmemb, size_t size)
 {
-	unsigned char	*ptr;
-	size_t			i;
+	size_t	nbytes;
+	void	*ptr;
 
-	ptr = (unsigned char *)s;
-	i = 0;
-	while (i < n)
+	nbytes = 1;
+	if (nmemb == 0 || size == 0)
+		ptr = malloc(1);
+	else
 	{
-		if (ptr[i] == (unsigned char)c)
-		{
-			return ((void *)ptr + i);
-		}
-		i++;
+		nbytes = nmemb * size;
+		if (nbytes / nmemb != size)
+			return (NULL);
+		ptr = malloc(nbytes);
 	}
-	return (NULL);
+	if (!ptr)
+		return (NULL);
+	ft_bzero(ptr, nbytes);
+	return (ptr);
 }

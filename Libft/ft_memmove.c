@@ -6,7 +6,7 @@
 /*   By: idiaz-ca <idiaz-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 12:57:58 by idiaz-ca          #+#    #+#             */
-/*   Updated: 2025/04/09 16:05:20 by idiaz-ca         ###   ########.fr       */
+/*   Updated: 2025/04/16 13:29:57 by idiaz-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,22 @@
 
 void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	unsigned char *d;
-	const unsigned char *s;
+	const unsigned char	*s;
+	unsigned char		*d;
+	size_t				i;
 
+	i = 0;
 	if (!dst && !src)
 		return (NULL);
-
 	d = (unsigned char *)dst;
 	s = (const unsigned char *)src;
-
 	if (d < s)
 	{
-		for (size_t i = 0; i < len; i++)
+		while (i < len)
+		{
 			d[i] = s[i];
+			i++;
+		}
 	}
 	else
 	{

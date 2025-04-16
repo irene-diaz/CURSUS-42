@@ -6,7 +6,7 @@
 /*   By: idiaz-ca <idiaz-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 22:42:29 by idiaz-ca          #+#    #+#             */
-/*   Updated: 2025/04/09 17:27:27 by idiaz-ca         ###   ########.fr       */
+/*   Updated: 2025/04/16 13:39:42 by idiaz-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ size_t	strleng(const char *str)
 
 size_t	ft_strlcat(char *dest, const char *src, size_t size)
 {
-	size_t i;
-	size_t j;
-	size_t lens;
-	size_t lend;
+	size_t	i;
+	size_t	j;
+	size_t	lens;
+	size_t	lend;
 
 	lens = strleng(src);
 	lend = strleng(dest);

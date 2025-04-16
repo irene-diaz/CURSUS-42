@@ -6,7 +6,7 @@
 /*   By: idiaz-ca <idiaz-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 13:19:19 by idiaz-ca          #+#    #+#             */
-/*   Updated: 2025/04/09 13:26:25 by idiaz-ca         ###   ########.fr       */
+/*   Updated: 2025/04/16 13:31:20 by idiaz-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	*ft_memcpy(void *s1, const void *s2, size_t n)
 {
-	size_t i;
-	unsigned char *ptr1;
-	unsigned char *ptr2;
+	unsigned char	*ptr1;
+	unsigned char	*ptr2;
+	size_t			i;
 
 	ptr1 = (unsigned char *)s1;
 	ptr2 = (unsigned char *)s2;

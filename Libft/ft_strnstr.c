@@ -6,7 +6,7 @@
 /*   By: idiaz-ca <idiaz-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 14:04:02 by idiaz-ca          #+#    #+#             */
-/*   Updated: 2025/04/12 14:29:16 by idiaz-ca         ###   ########.fr       */
+/*   Updated: 2025/04/16 13:38:53 by idiaz-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,11 @@
 
 char	*ft_strnstr(const char *big, const char *little, size_t len)
 {
-	size_t i;
-	size_t j;
+	size_t	i;
+	size_t	j;
 
 	if (*little == '\0')
 		return ((char *)big);
-
 	i = 0;
 	while (big[i] && i < len)
 	{

@@ -6,7 +6,7 @@
 /*   By: idiaz-ca <idiaz-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 21:17:56 by idiaz-ca          #+#    #+#             */
-/*   Updated: 2025/04/09 16:52:26 by idiaz-ca         ###   ########.fr       */
+/*   Updated: 2025/04/16 13:38:04 by idiaz-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 size_t	ft_strlcpy(char *dest, char *src, size_t size)
 {
-	size_t i;
-	size_t j;
+	size_t	i;
+	size_t	j;
 
 	i = 0;
 	while (src[i])

@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: idiaz-ca <idiaz-ca@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/16 13:49:26 by idiaz-ca          #+#    #+#             */
+/*   Updated: 2025/04/16 16:05:01 by idiaz-ca         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include <string.h>
 
 char	*ft_strrchr(const char *s, int c)
 {
-	size_t	lon;
+	int	lon;
 
 	lon = ft_strlen(s);
 	while (lon >= 0)
@@ -16,23 +28,3 @@ char	*ft_strrchr(const char *s, int c)
 	}
 	return (NULL);
 }
-
-/*int	main(void)
-{
-	const char	*texto = "mola mundo";
-	char		*ptr;
-	const char	*texto2 = "Hola mundo";
-	char		*ptr2;
-
-	ptr = strrchr(texto, 'm');
-	if (ptr != NULL)
-		printf("Encontrado: %s\n", ptr); // Imprime "mundo"
-	else
-		printf("No se encontró el carácter\n");
-	ptr2 = ft_strrchr(texto2, 'm');
-	if (ptr2 != NULL)
-		printf("Encontrado: %s\n", ptr2); // Imprime "mundo"
-	else
-		printf("No se encontró el carácter\n");
-	return (0);
-}*/

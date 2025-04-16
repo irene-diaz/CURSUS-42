@@ -1,32 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: idiaz-ca <idiaz-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/12 13:07:01 by idiaz-ca          #+#    #+#             */
-/*   Updated: 2025/04/16 13:40:43 by idiaz-ca         ###   ########.fr       */
+/*   Created: 2025/04/15 13:35:44 by idiaz-ca          #+#    #+#             */
+/*   Updated: 2025/04/16 14:02:10 by idiaz-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <string.h>
+#include <stdlib.h>
 
-void	*ft_memchr(const void *s, int c, size_t n)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	unsigned char	*ptr;
-	size_t			i;
+	size_t	i;
+	size_t	j;
+	size_t	lens1;
+	size_t	lens2;
+	char	*join;
 
-	ptr = (unsigned char *)s;
 	i = 0;
-	while (i < n)
+	j = 0;
+	lens1 = ft_strlen(s1);
+	lens2 = ft_strlen(s2);
+	join = (char *)malloc(lens1 + lens2 + 1);
+	if (!join)
+		return (NULL);
+	while (i < lens1)
 	{
-		if (ptr[i] == (unsigned char)c)
-		{
-			return ((void *)ptr + i);
-		}
+		join[i] = s1[i];
 		i++;
 	}
-	return (NULL);
+	while (j < lens2)
+	{
+		join[i + j] = s2[j];
+		j++;
+	}
+	join[i + j] = '\0';
+	return (join);
 }

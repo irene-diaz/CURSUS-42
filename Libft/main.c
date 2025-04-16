@@ -6,7 +6,7 @@
 /*   By: idiaz-ca <idiaz-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 12:44:41 by idiaz-ca          #+#    #+#             */
-/*   Updated: 2025/04/12 15:35:12 by idiaz-ca         ###   ########.fr       */
+/*   Updated: 2025/04/16 16:28:20 by idiaz-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,48 @@
 
 int	main(void)
 {
-	printf("COMPROBACIONES\n");
+	char str[] = "Hola mundo";
+	char str2[] = "Hola mundo";
+	char str3[] = "Hola mundo";
+	char str4[10] = "Hola mundo";
+	char s1[] = "Hola mundo";
+	char s2[] = "Adios gente";
+	char s3[] = "Hola mundo";
+	char dest[] = "Hola mundo";
+	char src[] = "Adios gente";
+	char dest2[] = "Hola mundo";
+	char source[] = "Hola, mundo";
+	char dst[20];
+	unsigned int size;
+	unsigned int len;
+	char src5[] = "hola";
+	char dest5[10] = "adios";
+	const char *texto = "Hola mundo";
+	char *ptr;
+	const char *texto2 = "Hola mundo";
+	char *ptr2;
+	unsigned int length;
+	char str8[] = "abz";
+	char str9[] = "aba";
+	int n;
+	int n2;
+	char str10[] = "Hola mundo";
+	char *ptr3;
+	char *ptr4;
+	char s4[] = "Hola\0mundo";
+	char s5[] = "Hola\0zorro";
+	char *big;
+	char *little;
+	char *resultado;
+	int *nums;
+	int *nums2;
+	int *nums3;
+	int *nums4;
+	char *original;
+	char *copia;
+	char *copia2;
 
+	printf("COMPROBACIONES\n");
 	printf("COMPROBACION CON FUNCION IS_ALPHA\n");
 	printf("Comprobacion con mi propia funcion\n");
 	// comprobacion con caracter no alfabetico
@@ -35,7 +75,6 @@ int	main(void)
 	printf("Salida: %d\n", isalpha('z'));
 	// comprobacion con caracter vacio
 	printf("Salida: %d\n", isalpha(' '));
-
 	printf("\n");
 
 	printf("COMPROBACION CON FUNCION IS_DIGIT\n");
@@ -53,7 +92,6 @@ int	main(void)
 	printf("Salida: %d\n", isdigit('z'));
 	// comprobacion con caracter vacio
 	printf("Salida: %d\n", isdigit(' '));
-
 	printf("\n");
 
 	printf("COMPROBACION CON FUNCION IS_ALNUM\n");
@@ -71,7 +109,6 @@ int	main(void)
 	printf("Salida: %d\n", isalnum('z'));
 	// comprobacion con caracter vacio
 	printf("Salida: %d\n", isalnum(' '));
-
 	printf("\n");
 
 	printf("COMPROBACION CON FUNCION IS_ASCII\n");
@@ -95,7 +132,6 @@ int	main(void)
 	// printf("Salida: %d\n", isascii('¿'));
 	/* printf("Salida:
 		%d\n",isascii('ª')); (no funcina pq no entra dentro de un char)*/
-
 	printf("\n");
 
 	printf("COMPROBACION CON FUNCION IS_PRINT\n");
@@ -126,7 +162,6 @@ int	main(void)
 	Ademas habria que incluir estos include:
 	#include <wchar.h>  // Para manejar caracteres anchos
 	#include <wctype.h> // Para iswprint()*/
-
 	printf("\n");
 
 	printf("COMPROBACION CON FUNCION STRLEN\n");
@@ -150,89 +185,68 @@ int	main(void)
 	printf("Salida: %zu\n", strlen(""));
 	// comprobacion con caracter vacio
 	printf("Salida: %zu\n", strlen("1 2 2"));
-
 	printf("\n");
 
 	printf("COMPROBACION CON FUNCION MEMSET \n");
 	printf("Comprobacion con mi propia funcion\n");
-	char str[] = "Hola mundo";
 	printf("Salida:%s\n", str);
 	ft_memset(str, 36, 3);
 	printf("Salida:%s\n", str);
 	printf("Comprobacion con la funcion original\n");
-	char str2[] = "Hola mundo";
 	printf("Salida:%s\n", str2);
 	memset(str2, 36, 3);
 	printf("Salida:%s\n", str2);
-
 	printf("\n");
-
 	// como memset pero rellena con \n
+
 	printf("COMPROBACION CON FUNCION BZERO \n");
 	printf("Comprobacion con mi propia funcion\n");
-	char str3[] = "Hola mundo";
 	printf("Salida:%s\n", str3);
 	ft_bzero(str3, 3);
 	printf("Salida:%s\n", str3);
 	printf("Comprobacion con la funcion original\n");
-	char str4[10] = "Hola mundo";
 	printf("Salida:%s\n", str4);
 	/* no muestra nada mas desde el caracter 6,
 		pq a partir de ahi añadimos caracteres nulos*/
 	bzero(&str4[6], 3);
 	printf("Salida:%s\n", str4);
-
 	printf("\n");
 
 	printf("COMPROBACION CON FUNCION MEMCPY \n");
 	printf("Comprobacion con mi propia funcion\n");
-	char s1[] = "Hola mundo";
-	char s2[] = "Adios gente";
 	printf("Salida:%s\n", s1);
 	ft_memcpy(s1, s2, 3);
 	printf("Salida:%s\n", s1);
 	printf("Comprobacion con la funcion original\n");
-	char s3[] = "Hola mundo";
 	printf("Salida:%s\n", s3);
 	memcpy(s3, s2, 3);
 	printf("Salida:%s\n", s3);
-
 	printf("\n");
 
 	printf("COMPROBACION CON FUNCION MEMMOVE \n");
 	printf("Comprobacion con mi propia funcion\n");
-	char dest[] = "Hola mundo";
-	char src[] = "Adios gente";
 	printf("Salida:%s\n", s1);
 	ft_memmove(dest, src, 3);
 	printf("Salida:%s\n", s1);
 	printf("Comprobacion con la funcion original\n");
-	char dest2[] = "Hola mundo";
 	printf("Salida:%s\n", s3);
 	memcpy(dest2, src, 3);
 	printf("Salida:%s\n", s3);
-
 	printf("\n");
 
 	printf("COMPROBACION CON FUNCION STRLCPY \n");
 	printf("Comprobacion con mi propia funcion(la funcion original no la tenemos incluida)\n");
-	char source[] = "Hola, mundo";
-	char dst[20];
 	/* pone size como 4,
 		pero aparentemente corta 3 caracteres por el final de string*/
-	unsigned int size = 4;
-	unsigned int len = ft_strlcpy(dst, source, size);
+	size = 4;
+	len = ft_strlcpy(dst, source, size);
 	printf("Copiado: %s\n", dst);
 	printf("Longitud de src:%u\n", len);
-
 	printf("\n");
 
 	printf("COMPROBACION CON FUNCION STRLCAT \n");
 	printf("Comprobacion con mi propia funcion(la funcion original no la tenemos incluida)\n");
-	char src5[] = "hola";
-	char dest5[10] = "adios";
 	printf("%zu\n", ft_strlcat(dest5, src5, sizeof(dest5)));
-
 	printf("\n");
 
 	printf("COMPROBACION CON FUNCION TOUPPER \n");
@@ -242,7 +256,6 @@ int	main(void)
 	printf("Comprobacion con la funcion original\n");
 	printf("%c\n", toupper('a'));
 	printf("%c\n", toupper('1'));
-
 	printf("\n");
 
 	printf("COMPROBACION CON FUNCION TOLOWER \n");
@@ -252,13 +265,9 @@ int	main(void)
 	printf("Comprobacion con la funcion original\n");
 	printf("%c\n", tolower('a'));
 	printf("%c\n", tolower('1'));
-
 	printf("\n");
+
 	printf("COMPROBACION CON FUNCION STRCHR \n");
-	const char *texto = "Hola mundo";
-	char *ptr;
-	const char *texto2 = "Hola mundo";
-	char *ptr2;
 	ptr = strchr(texto, 'm');
 	printf("Comprobacion con mi propia funcion\n");
 	if (ptr != NULL)
@@ -271,8 +280,8 @@ int	main(void)
 		printf("Encontrado: %s\n", ptr2); // Imprime "mundo"
 	else
 		printf("No se encontró el carácter\n");
-
 	printf("\n");
+
 	printf("COMPROBACION CON FUNCION STRRCHR \n");
 	ptr = strrchr(texto, 'm');
 	printf("Comprobacion con la funcion original\n");
@@ -286,24 +295,21 @@ int	main(void)
 		printf("Encontrado: %s\n", ptr2); // Imprime "mundo"
 	else
 		printf("No se encontró el carácter\n");
-
 	printf("\n");
+
 	printf("COMPROBACION CON FUNCION STRNCMP \n");
-	unsigned int length = 3;
-	char str8[] = "abz";
-	char str9[] = "aba";
-	int n = ft_strncmp(str8, str9, length);
-	int n2 = strncmp(str8, str9, length);
+	length = 3;
+	n = ft_strncmp(str8, str9, length);
+	n2 = strncmp(str8, str9, length);
 	printf("Comprobacion con la funcion original\n");
 	printf("%i\n", n2);
 	printf("Comprobacion con mi propia funcion\n");
 	printf("%i\n", n);
-
 	printf("\n");
-	printf("COMPROBACION CON FUNCION FT_MEMCHR \n");
-	char str10[] = "Hola mundo";
-	char *ptr3;
-	char *ptr4;
+	//test que petaba por no poner unsigned char(ya qu e sino pudes meter caracteres no ASCII)
+	ft_strncmp("test\200", "test\0", 6);
+	
+	printf("COMPROBACION CON FUNCION MEMCHR \n");
 	printf("Comprobacion con la funcion original\n");
 	// Buscamos la letra 'm' en los primeros 10 bytes
 	ptr3 = memchr(str10, 'm', 10);
@@ -318,29 +324,24 @@ int	main(void)
 		printf("Encontrado: %s\n", ptr4); // Debería imprimir: "mundo"
 	else
 		printf("No se encontró el carácter.\n");
-
 	printf("\n");
-	printf("COMPROBACION CON FUNCION FT_MEMCMP \n");
-	char s4[] = "Hola\0mundo";
-	char s5[] = "Hola\0zorro";
+	printf("COMPROBACION CON FUNCION MEMCMP \n");
 	printf("Comprobacion con la funcion original\n");
 	printf("memcmp: %d\n", memcmp(s4, s5, 10));
 	printf("Comprobacion con mi propia funcion\n");
 	printf("ft_memcmp: %d\n", ft_memcmp(s4, s5, 10));
-
 	printf("\n");
-	printf("COMPROBACION CON FUNCION FT_STRNSTR \n");
-	char *big = "Hola mundo bonito!";
-	char *little = "mun";
+	printf("COMPROBACION CON FUNCION STRNSTR \n");
+	big = "Hola mundo bonito!";
+	little = "mun";
 	printf("Comprobacion con mi propia funcion(la funcion original no la tenemos incluida)\n");
-	char *resultado = ft_strnstr(big, little, 10);
+	resultado = ft_strnstr(big, little, 10);
 	if (resultado)
 		printf("Encontrado: %s\n", resultado); // Debería imprimir: "mundo!"
 	else
 		printf("No encontrado.\n");
-
 	printf("\n");
-	printf("COMPROBACION CON FUNCION FT_ATOI \n");
+	printf("COMPROBACION CON FUNCION ATOI \n");
 	printf("Resultado ft_atoi: %d\n", ft_atoi("-7"));
 	printf("Resultado atoi: %d\n", atoi("-7"));
 	printf("Resultado ft_atoi: %d\n", ft_atoi("--7"));
@@ -349,5 +350,138 @@ int	main(void)
 	printf("Resultado atoi: %d\n", atoi("    7"));
 	printf("Resultado ft_atoi: %d\n", ft_atoi("+7"));
 	printf("Resultado atoi: %d\n", atoi("+7"));
+	printf("\n");
+
+	// FUNCIONES
+	printf("COMPROBACION CON FUNCION CALLOC \n");
+	printf("Comprobacion con mi propia funcion\n");
+	nums = ft_calloc(5, sizeof(int));
+	if (!nums)
+	{
+		printf("Error en calloc\n");
+		return (1);
+	}
+	for (int i = 0; i < 5; i++)
+		printf("%d ", nums[i]); // Debería imprimir: 0 0 0 0 0
+	free(nums);
+	printf("\n");
+	nums2 = ft_calloc(0, sizeof(int));
+	if (!nums2)
+	{
+		printf("Error en calloc\n");
+		return (1);
+	}
+	for (int i = 0; i < 5; i++)
+		printf("%d ", nums2[i]); // Debería imprimir: 0 0 0 0 0
+	free(nums2);
+	printf("\n");
+	printf("Comprobacion con la funcion original\n");
+	nums3 = ft_calloc(5, sizeof(int));
+	if (!nums3)
+	{
+		printf("Error en calloc\n");
+		return (1);
+	}
+	for (int i = 0; i < 5; i++)
+		printf("%d ", nums3[i]); // Debería imprimir: 0 0 0 0 0
+	free(nums3);
+	printf("\n");
+	nums4 = ft_calloc(0, sizeof(int));
+	if (!nums4)
+	{
+		printf("Error en calloc\n");
+		return (1);
+	}
+	for (int i = 0; i < 5; i++)
+		printf("%d ", nums4[i]); // Debería imprimir: 0 0 0 0 0
+	free(nums4);
+	printf("\n");
+
+	printf("\n");
+
+	printf("COMPROBACION CON FUNCION STRDUP \n");
+	original = "Hola mundo!";
+	printf("Comprobacion con mi propia funcion\n");
+	copia = ft_strdup(original);
+	if (copia)
+	{
+		printf("Original: %s\n", original);
+		printf("Duplicado: %s\n", copia);
+		free(copia);
+	}
+	printf("Comprobacion con la funcion original\n");
+	copia2 = ft_strdup(original);
+	if (copia2)
+	{
+		printf("Original: %s\n", original);
+		printf("Duplicado: %s\n", copia2);
+		free(copia2);
+	}
+
+	printf("\n");
+
+	// FUNCIONES ADICIONALES
+	printf("%s\n", ft_substr("Hola me llamo Irene", 2, 5));
+	printf("%s\n", ft_strjoin("Hola", "Adios"));
+	printf("%s\n", ft_strtrim("supercalifragi", "sui"));
 	return (0);
+
+	/*FUNCION CALLOC
+	#include "libft.h"
+	#include <stdlib.h>
+	void	*ft_calloc(size_t nmemb, size_t size)
+	{
+	//si el tamaño o el nº de elementos es 0, devuelve un puntero unico
+	if (nmemb == 0 || size == 0)
+	{
+		nbytes = 1;
+		ptr = malloc(1);
+	}
+	//sino crea un malloc de los bytes necesarios,
+		si supera el limite devuelve NULL
+	else
+	{
+		nbytes = nmemb * size;
+		if (nbytes / nmemb != size)
+			return (NULL);
+		ptr = malloc(nbytes);
+	}
+	//protegemos cualquier error del puntero final, mandando NULL
+	if (!ptr)
+		return (NULL);
+	//rellenamos con 0 las memoria
+	ft_bzero(ptr, nbytes);
+	//finalmente liberamos la memoria
+	free(ptr);
+	//devolvemos el puntero
+	return (ptr);
+	❌ ¿Por qué NO debes hacer free() dentro de calloc?
+	Porque entonces estarías liberando la memoria antes de que nadie la pueda usar,
+		y además
+	retornarías un puntero a memoria que ya ha sido liberada (¡muy peligroso!)
+}*/
+
+	/*FUNCION STRDUP
+	char	*ft_strdup(const char *s)
+	{
+		size_t i;
+		size_t len;
+		char *dup;
+		//consigo la longitud de s
+		while (s[len])
+			len++;
+		//asignamos un espacio mas, para guardar el '\0'
+		dup = (char *)malloc(len + 1);
+		//protegemos cualquier error del puntero final, mandando NULL
+		if (!dup)
+			return (NULL);
+		//rellenamos el puntero con los mismos valores de s + '\0'
+		while (i<len+1)
+		{
+			dup[i] = s[i];
+			i++;
+		}
+		// dup[i] = '\0'; explícito, fácil de ver(en vez de len+1)
+		return (dup);
+	} */
 }
