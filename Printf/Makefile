@@ -1,7 +1,11 @@
 NAME = libftprintf.a
 
+EXE = ./main
+
 SRCS = ft_printf.c \
-	# main.c \
+	format_string.c \
+	utils.c\
+	main.c \
 
 OBJS = $(SRCS:.c=.o)
 
@@ -17,7 +21,7 @@ OBJS = $(SRCS:.c=.o)
 
 #BONUS_OBJS = $(BONUS_FILES:.c=.o)
 
-HEADERS = printf.h
+HEADERS = ft_printf.h
 
 CC = cc
 
@@ -47,6 +51,6 @@ fclean: clean
 re: fclean all
 
 run: $(NAME)
-	./$(NAME)
+	cc -o $(EXE) $(OBJS) -L. -l:$(NAME)
 
 .PHONY: all clean fclean re run
