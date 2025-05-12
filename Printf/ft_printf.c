@@ -6,7 +6,7 @@
 /*   By: idiaz-ca <idiaz-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 12:11:32 by idiaz-ca          #+#    #+#             */
-/*   Updated: 2025/05/09 13:45:50 by idiaz-ca         ###   ########.fr       */
+/*   Updated: 2025/05/12 13:26:14 by idiaz-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	ft_printf(const char *formato, ...)
 			count += ft_putchar(*formato);
 		}
 		formato++;
-		va_end(args);
 	}
 	return (count);
+	va_end(args);
 }
