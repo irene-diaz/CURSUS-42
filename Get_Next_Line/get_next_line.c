@@ -6,7 +6,7 @@
 /*   By: oem <oem@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 11:22:48 by oem               #+#    #+#             */
-/*   Updated: 2025/06/02 10:40:16 by oem              ###   ########.fr       */
+/*   Updated: 2025/06/04 09:03:07 by oem              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static char	*read_line(int fd, char *stash)
 {
 	char	*buf;
+	char	*temp;
 	ssize_t	bytes;
 
 	if (!stash)
@@ -27,12 +28,11 @@ static char	*read_line(int fd, char *stash)
 	{
 		bytes = read(fd, buf, BUFFER_SIZE);
 		if (bytes < 0)
-		{
-			free(buf);
-			return (NULL);
-		}
+			return (free(buf), free(stash), NULL);
 		buf[bytes] = '\0';
-		stash = ft_strjoin(stash, buf);
+		temp = ft_strjoin(stash, buf);
+		free(stash);
+		stash = temp;
 	}
 	free(buf);
 	return (stash);
