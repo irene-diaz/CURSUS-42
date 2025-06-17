@@ -11,7 +11,7 @@ int	main(int argc, char **argv)
 	int i = 0;
 	// indica si estas dentro de una palabra o no(1 si 0 no)
 	int in_word = 0;
-	// para evitar imprimir espacios antes de la primera palabra.(1, ya la hemos impreso 0, todavia no)
+	// para evitar imprimir espacios antes de la primera palabra.(1: ya la hemos impreso , 0: todavia no)
 	int first_word = 1;
 
 	if (argc == 2)
