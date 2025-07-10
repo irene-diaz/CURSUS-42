@@ -14,7 +14,7 @@ If the number of parameters is not 1, simply display a newline.
 The input, when there is one, will be valid.
 
 Examples:
-
+0
 $> ./fprime 225225 | cat -e
 3*3*5*5*7*11*13$
 $> ./fprime 8333325 | cat -e
