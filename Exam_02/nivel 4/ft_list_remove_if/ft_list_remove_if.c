@@ -14,7 +14,7 @@ void	ft_list_remove_if(t_list **begin_list, void *data_ref, int (*cmp)())
 	t_list *tmp;
 
     // Verifica si la lista o el puntero a la lista es NULL
-	if ((*begin_list == NULL) || (begin_list == NULL))
+	if ((*begin_list == NULL))
 		return ;
 
     // Compara el contenido del nodo actual con 'data_ref'
