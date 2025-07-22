@@ -1,44 +1,43 @@
 //#include <stdio.h>
 
-void sort_int_tab(int *tab, unsigned int size)
+typedef struct s_list t_list;
+
+struct s_list
 {
-    unsigned int i;
-    //temp: variable auxiliar para intercambiar dos números.
+	int     data;
+	t_list  *next;
+};
+
+t_list *sort_list(t_list *lst, int (*cmp)(int, int))
+{
     int temp;
-    //swapped: bandera para saber si se hizo algún intercambio en el bucle (si no, la lista ya está ordenada).
     int swapped;
+    t_list *head = lst;  // Guardamos la referencia al primer nodo de la lista
 
-    //Si el array tiene menos de 2 elementos, ya está ordenado, no hacemos nada.
-    if (size < 2)
-        return;
+    // Verificamos si la lista está vacía o tiene un solo elemento
+    if (lst == 0 || lst->next == 0)
+        return lst;
 
-    //Comienza un ciclo do-while que se repetirá mientras se hagan intercambios (swapped = 1).
     do {
-        //inizializamos la variable 0, pq no hay intercambios
         swapped = 0;
-        i = 0;
-        //recorremos el array y lo que hacemos es comparamos cada par de elementos consecutivos
-        while (i < size - 1)
-        {
-            //aqui es donde vemos la comparacion de los elementos consecutivos
-           //Si el actual (tab[i]) es mayor que el siguiente (tab[i + 1]), los intercambiamos.
-            if (tab[i] > tab[i + 1])
-            {
-                // Intercambiar elementos
-                //igualamos el primer valor a la variable temporal
-                temp = tab[i];
-                //igualamos el primer vakor al segundo valor
-                tab[i] = tab[i + 1];
-                //igualamos el segundo valor a la variable temporal
-                tab[i + 1] = temp;
-                //Si al menos un intercambio ocurre, swapped = 1 → el bucle se repetirá.
-                swapped = 1;
+        // Recorremos la lista comparando los nodos adyacentes
+        while (lst != 0 && lst->next != 0) {
+            if ((*cmp)(lst->data, lst->next->data) > 0) {
+                // Intercambiamos los datos de los nodos
+                temp = lst->data;
+                lst->data = lst->next->data;
+                lst->next->data = temp;
+
+                swapped = 1;  // Indicamos que hubo un intercambio
             }
-            i++;
+            lst = lst->next;  // Avanzamos al siguiente nodo
         }
-    /*Se repite mientras se hayan hecho intercambios.
-    Cuando ya no se necesita intercambiar nada, el array está ordenado.*/
-    }while (swapped);
+        // Reiniciamos el puntero lst al principio de la lista
+        lst = head;
+
+    } while (swapped);  // Repetimos el proceso si hubo intercambios
+
+    return head;  // Retornamos el inicio de la lista
 }
 
 /*unsigned int ft_strlen(int *str)
