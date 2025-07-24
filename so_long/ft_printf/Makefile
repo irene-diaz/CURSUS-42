@@ -1,43 +1,87 @@
-NAME = ft_printf.a
-#EXE = ./main
+# **************************************************************************** #
+#                                  CONFIG                                      #
+# **************************************************************************** #
 
-SRCS = ft_printf.c \
-	utils.c\
-	utils2.c \
-	#main.c\
+NAME		= so_long
 
-OBJS = $(SRCS:.c=.o)
+# Directorios
+SRC_DIR		= src
+OBJ_DIR		= obj
+INCLUDE_DIR	= includes
 
+# Bibliotecas
+LIBFT_DIR	= libft
+LIBFT_A		= $(LIBFT_DIR)/libft.a
 
-HEADERS = ft_printf.h
+PRINTF_DIR	= ft_printf
+PRINTF_A	= $(PRINTF_DIR)/ft_printf.a
 
-CC = cc
+MLX_DIR		= minilibx-linux
+MLX_LIB		= $(MLX_DIR)/libmlx.a
+MLX_FLAGS	= -L$(MLX_DIR) -lmlx -lXext -lX11 -lm
 
-CFLAGS = -Wall -Wextra -Werror
+# Compilación
+CC			= cc
+CFLAGS		= -Wall -Wextra -Werror
+INCLUDES	= -I$(INCLUDE_DIR) -I$(LIBFT_DIR) -I$(PRINTF_DIR) -I$(MLX_DIR)
 
-AR = ar rcs
+# **************************************************************************** #
+#                                 SOURCES                                      #
+# **************************************************************************** #
+
+SRC =	$(SRC_DIR)/main.c \
+		$(SRC_DIR)/map.c \
+		$(SRC_DIR)/map_utils.c \
+		$(SRC_DIR)/validate.c \
+		$(SRC_DIR)/validate2.c \
+		$(SRC_DIR)/init_game.c \
+		$(SRC_DIR)/setup_window.c \
+		$(SRC_DIR)/render.c \
+		$(SRC_DIR)/game.c \
+		$(SRC_DIR)/move.c
+
+# Obtener .o desde .c 
+#(“Toma cada archivo de $(SRC) que encaje con src/%.c” “Y devuélveme el mismo nombre pero en obj/%.o”)
+OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
+
+# **************************************************************************** #
+#                                  RULES                                       #
+# **************************************************************************** #
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	$(AR) $(NAME) $(OBJS)
+$(NAME): $(MLX_LIB) $(LIBFT_A) $(PRINTF_A) $(OBJ)
+	$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) $(LIBFT_A) $(PRINTF_A) $(MLX_FLAGS) -o $(NAME)
 
-# $(NAME): $(OBJS)
-# 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
+# Compilar cada .o en obj/
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-%.o: %.c $(HEADERS)
-	$(CC) $(CFLAGS) -c $< -o $@
+# Build las libs externas
+$(MLX_LIB):
+	$(MAKE) -C $(MLX_DIR)
 
-#bonus: $(NAME) $(BONUS_OBJS)$(AR) $(NAME) $(BONUS_OBJS)
+$(LIBFT_A):
+	$(MAKE) -C $(LIBFT_DIR)
+
+$(PRINTF_A):
+	$(MAKE) -C $(PRINTF_DIR)
 
 clean:
-	rm -f $(OBJS)
+	$(MAKE) clean -C $(MLX_DIR)
+	$(MAKE) clean -C $(LIBFT_DIR)
+	$(MAKE) clean -C $(PRINTF_DIR)
+	rm -rf $(OBJ_DIR)
 
 fclean: clean
+	$(MAKE) fclean -C $(LIBFT_DIR)
+	$(MAKE) fclean -C $(PRINTF_DIR)
 	rm -f $(NAME)
 
 re: fclean all
 
-#run: $(NAME) aqui hay un enterr cc -o $(EXE) $(OBJS) -L. -l:$(NAME)
+run: all
+	./$(NAME) $(MAP)
 
 .PHONY: all clean fclean re run
