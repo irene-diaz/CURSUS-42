@@ -1,0 +1,100 @@
+Lista de verificación de errores
+Hay muchos errores que gestionar en push_swap. ¡No olvides ninguno!
+
+
+El programa debe trabajar con varios argumentos numéricos
+
+
+./push_swap 1 3 5 +9 20 -4 50 60 04 08
+
+
+El programa también funciona si recibe una sola lista de caracteres como parámetro.
+
+
+./push_swap "3 4 6 8 9 74 -56 +495"
+
+
+El programa NO debería funcionar si encuentra otro carácter
+
+
+./push_swap 1 3 perro 35 80 -3
+
+
+./push_swap a
+
+
+./push_swap 1 2 3 5 67b778 947
+
+
+.push_swap " 12 4 6 8 54fhd 4354"
+
+
+./push_swap 1 -- 45 32
+
+
+Estos ejemplos deberían devolver "Error\n"
+
+
+El programa NO debería funcionar si encuentra un número doble
+
+
+./push_swap 1 3 58 9 3
+
+
+./push_swap 3 03
+
+
+./push_swap " 49 128 50 38 49"
+
+
+Estos ejemplos deberían devolver "Error\n"
+
+
+./push_swap "95 99 -9 10 9"
+
+
+Este ejemplo debería funcionar porque -9 y 9 no son iguales
+
+
+El programa debería funcionar con INT MAX y INT MIN
+
+
+./push_swap 2147483647 2 4 7
+
+
+./push_swap 99 -2147483648 23 545
+
+
+./push_swap "2147483647 843 56544 24394"
+
+
+Estos ejemplos deberían funcionar y ordenar tu lista.
+
+
+./push_swap 54867543867438 3
+
+
+./push_swap -2147483647765 4 5
+
+
+./push_swap "214748364748385 28 47 29"
+
+
+Estos ejemplos deberían devolver "Error\n"
+
+
+No se ha especificado nada cuando se mezclan cadenas y enteros. Depende de usted qué desea hacer.
+
+
+./push_swap "1 2 4 3" 76 90 "348 05
+
+
+NUMEROS ALEATORIOS
+ARG=$(seq 1 100 | sort -R | tr '\n' ' ')
+./push_swap $ARG | wc -l
+
+VALIDACION DE Nº DE MOVIMIENTOS Y CHECKER
+ARG="4 67 3 87 23"; ./push_swap $ARG | wc -l
+6
+$>ARG="4 67 3 87 23"; ./push_swap $ARG | ./checker_OS $ARG
+OK
