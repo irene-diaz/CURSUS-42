@@ -6,7 +6,7 @@
 /*   By: oem <oem@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:22:40 by oem               #+#    #+#             */
-/*   Updated: 2025/08/07 19:04:15 by oem              ###   ########.fr       */
+/*   Updated: 2025/08/11 13:45:22 by oem              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	error_exit(const char *msg)
 	agregar el nombre del comando.)
 	b-Verificar si ese path existe y es ejecutable(X_OK si tiene permisos x)
 	c-Si no es válida, liberamos memoria y seguimos
-5. Sino encontramos ningyna ruta valida liberamos todo */
+5. Sino encontramos ninguna ruta valida liberamos todo */
 char	*get_cmd_path(char *cmd)
 {
 	char	**paths;
@@ -114,7 +114,11 @@ void	child1_process(char **argv, int *pipe_fd, char **envp)
 
 	infile = open(argv[1], O_RDONLY);
 	if (infile < 0)
+	{
+		close(pipe_fd[0]);
+		close(pipe_fd[1]);
 		error_exit("open infile");
+	}
 	dup2(infile, STDIN_FILENO);
 	dup2(pipe_fd[1], STDOUT_FILENO);
 	close(infile);
@@ -143,7 +147,11 @@ void	child2_process(char **argv, int *pipe_fd, char **envp)
 
 	outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (outfile < 0)
+	{
 		error_exit("open outfile");
+		close(pipe_fd[0]);
+		close(pipe_fd[1]);
+	}
 	dup2(pipe_fd[0], STDIN_FILENO);
 	dup2(outfile, STDOUT_FILENO);
 	close(outfile);
