@@ -6,7 +6,7 @@
 /*   By: oem <oem@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 18:20:26 by oem               #+#    #+#             */
-/*   Updated: 2025/08/17 18:20:27 by oem              ###   ########.fr       */
+/*   Updated: 2025/08/17 22:36:17 by oem              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,30 @@ char	*ft_getenv(char *name, char **envp)
 	c-Si no es válida, liberamos memoria y seguimos
 5. Sino encontramos ninguna ruta valida liberamos todo */
 
+/*
+ * Intenta construir "dir/cmd", comprueba X_OK
+ * Devuelve la ruta mallocada o NULL.
+ */
+static char	*try_path(char *dir, char *cmd)
+{
+	char	*tmp;
+	char	*full;
+
+	tmp = ft_strjoin(dir, "/");
+	if (!tmp)
+		return (NULL);
+	full = ft_strjoin(tmp, cmd);
+	free(tmp);
+	if (!full)
+		return (NULL);
+	if (access(full, X_OK) != 0)
+	{
+		free(full);
+		return (NULL);
+	}
+	return (full);
+}
+
 char	*get_cmd_path(char *cmd, char **envp)
 {
 	char	**paths;
@@ -55,18 +79,13 @@ char	*get_cmd_path(char *cmd, char **envp)
 	paths = ft_split(path_env, ':');
 	if (!paths)
 		return (NULL);
+	full_path = NULL;
 	i = 0;
-	while (paths[i])
+	while (paths[i] && !full_path)
 	{
-		full_path = ft_strjoin(ft_strjoin(paths[i], "/"), cmd);
-		if (access(full_path, X_OK) == 0)
-		{
-			ft_free_split(paths);
-			return (full_path);
-		}
-		free(full_path);
+		full_path = try_path(paths[i], cmd);
 		i++;
 	}
 	ft_free_split(paths);
-	return (NULL);
+	return (full_path);
 }
