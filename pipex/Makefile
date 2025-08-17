@@ -26,6 +26,7 @@ INCLUDES	= -I$(INCLUDE_DIR) -I$(LIBFT_DIR) -I$(PRINTF_DIR)
 # **************************************************************************** #
 
 SRC =	$(SRC_DIR)/main.c \
+		$(SRC_DIR)/path.c \
 		$(SRC_DIR)/pipex.c \
 		
 

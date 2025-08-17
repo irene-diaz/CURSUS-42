@@ -6,7 +6,7 @@
 /*   By: oem <oem@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:22:40 by oem               #+#    #+#             */
-/*   Updated: 2025/08/11 13:45:22 by oem              ###   ########.fr       */
+/*   Updated: 2025/08/17 18:17:58 by oem              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,44 +20,6 @@ void	error_exit(const char *msg)
 {
 	perror(msg);
 	exit(EXIT_FAILURE);
-}
-
-/* FUNCION PARA OBTENER LA RUTA ABSOLUTA DEL COMANDO QUE QUREMOS EJECUTAR
-(como ls, wc, grep, etc.) USANDO LA VARUABLE DE ENTORNO PATH
-1. Obtener la variable de entorno path(PATH contiene una lista de directorios
- separados por : donde el sistema busca los comandos.)
-2. Verificar si PATH existe
-3. Dividir PATH en rutas individuales(ademas comprobamos si existen)
-4. Recorremos cada ruta y construimos el camino completo
-	a-(Se usa ft_strjoin dos veces: una para agregar el / y otra para
-	agregar el nombre del comando.)
-	b-Verificar si ese path existe y es ejecutable(X_OK si tiene permisos x)
-	c-Si no es válida, liberamos memoria y seguimos
-5. Sino encontramos ninguna ruta valida liberamos todo */
-char	*get_cmd_path(char *cmd)
-{
-	char	**paths;
-	char	*path_env;
-	char	*full_path;
-	int		i;
-
-	path_env = getenv("PATH");
-	if (!path_env)
-		return (NULL);
-	paths = ft_split(path_env, ':');
-	if (!paths)
-		return (NULL);
-	i = 0;
-	while (paths[i])
-	{
-		full_path = ft_strjoin(ft_strjoin(paths[i], "/"), cmd);
-		if (access(full_path, X_OK) == 0)
-			return (full_path);
-		free(full_path);
-		i++;
-	}
-	ft_free_split(paths);
-	return (NULL);
 }
 
 /*FUNCION PARA EJECUTAR UN COMANDO DE SHELL
@@ -79,17 +41,17 @@ void	execute_cmd(char *cmd, char **envp)
 	args = ft_split(cmd, ' ');
 	if (!args || !args[0])
 		error_exit("split");
-	cmd_path = get_cmd_path(args[0]);
+	cmd_path = get_cmd_path(args[0], envp);
 	if (!cmd_path)
 	{
-		ft_free_split(args);
 		ft_printf("pipex: command not found: %s\n", args[0]);
+		ft_free_split(args);
 		exit(127);
 	}
 	execve(cmd_path, args, envp);
+	free(cmd_path);
 	perror("execve");
 	ft_free_split(args);
-	free(cmd_path);
 	exit(EXIT_FAILURE);
 }
 
@@ -148,9 +110,9 @@ void	child2_process(char **argv, int *pipe_fd, char **envp)
 	outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (outfile < 0)
 	{
-		error_exit("open outfile");
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
+		error_exit("open outfile");
 	}
 	dup2(pipe_fd[0], STDIN_FILENO);
 	dup2(outfile, STDOUT_FILENO);

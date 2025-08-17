@@ -6,7 +6,7 @@
 /*   By: oem <oem@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:41:59 by oem               #+#    #+#             */
-/*   Updated: 2025/08/07 18:58:52 by oem              ###   ########.fr       */
+/*   Updated: 2025/08/13 19:49:59 by oem              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@
 # include <unistd.h>
 
 void	error_exit(const char *msg);
-char	*get_cmd_path(char *cmd);
+char	*get_cmd_path(char *cmd, char **envp);
+char	*ft_getenv(char *name, char **envp);
 void	execute_cmd(char *cmd, char **envp);
 void	child1_process(char **argv, int *pipe_fd, char **envp);
 void	child2_process(char **argv, int *pipe_fd, char **envp);

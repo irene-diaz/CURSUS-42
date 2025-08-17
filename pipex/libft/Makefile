@@ -5,6 +5,7 @@ SRCS = ft_strlen.c \
 	ft_strjoin.c \
 	ft_split.c \
 	ft_free_split.c \
+	ft_strncmp.c \
 	# main.c \
 
 OBJS = $(SRCS:.c=.o)
