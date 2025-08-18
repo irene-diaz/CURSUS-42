@@ -1,4 +1,0 @@
-hola mundo\nesto es pipex\nadios
-pepe
-hola
-foo hola
