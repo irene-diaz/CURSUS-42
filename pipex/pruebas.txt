@@ -1,0 +1,3 @@
+cat archivo1.txt | /usr/bin/ls | echo pepe > salida1.txt
+=
+./pipex archivo1.txt "./usr/bin/ls" "echo pepe" salida1.txt
