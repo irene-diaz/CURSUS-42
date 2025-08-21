@@ -6,7 +6,7 @@
 /*   By: idiaz-ca <idiaz-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 18:20:26 by oem               #+#    #+#             */
-/*   Updated: 2025/08/18 15:54:09 by idiaz-ca         ###   ########.fr       */
+/*   Updated: 2025/08/21 17:17:17 by idiaz-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,6 @@ static char	*try_path(char *dir, char *cmd)
 	char	*tmp;
 	char	*full;
 
-	if (access(full, X_OK) == 0)
-	{
-		return (cmd);
-	}
 	tmp = ft_strjoin(dir, "/");
 	if (!tmp)
 		return (NULL);
@@ -73,6 +69,8 @@ char	*get_cmd_path(char *cmd, char **envp)
 	char	*full_path;
 	int		i;
 
+	if (access(cmd, X_OK) == 0)
+		return (cmd);
 	path_env = ft_getenv("PATH", envp);
 	if (!path_env)
 		return (NULL);
