@@ -6,7 +6,7 @@
 /*   By: idiaz-ca <idiaz-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 14:29:07 by idiaz-ca          #+#    #+#             */
-/*   Updated: 2025/04/18 17:34:49 by idiaz-ca         ###   ########.fr       */
+/*   Updated: 2025/08/21 13:54:58 by idiaz-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,14 @@ void	ft_putendl_fd(char *s, int fd)
 	i = 0;
 	if (!s)
 		return ;
+	if (fd == 2)
+		write(2, "\033[31m", 5);
 	while (s[i])
 	{
 		write(fd, &s[i], 1);
 		i++;
 	}
+	if (fd == 2)
+		write(2, "\033[0m", 4);
 	write(fd, "\n", 1);
 }

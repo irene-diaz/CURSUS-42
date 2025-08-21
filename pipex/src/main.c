@@ -6,7 +6,7 @@
 /*   By: idiaz-ca <idiaz-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:56:54 by oem               #+#    #+#             */
-/*   Updated: 2025/08/18 17:47:15 by idiaz-ca         ###   ########.fr       */
+/*   Updated: 2025/08/21 14:01:55 by idiaz-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,7 @@ int	main(int argc, char **argv, char **envp)
 	pid_t	pid2;
 
 	if (argc != 5)
-	{
 		return (ft_putendl_fd("Usage:./pipex archivo1 comando1 comando2 archivo2", 2), -1);
-		//ft_printf("Uso: %s archivo1 comando1 comando2 archivo2\n", argv[0], 2);
-	}
 	if (pipe(pipe_fd) == -1)
 		error_exit("pipe");
 	pid1 = fork();
