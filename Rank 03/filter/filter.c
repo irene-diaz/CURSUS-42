@@ -14,10 +14,15 @@ int	main(int argc, char **argv)
 	size_t plen = strlen(pat);
 	// cuántos caracteres del patrón ya hemos comprobado (prefijo coincidente)
 	size_t i = 0;
-
+	// valor de retorno del read (para controlar errores debemos usar ssize_t)
 	ssize_t r;
 
 	// Ese while está leyendo la entrada estándar carácter por carácter hasta que no haya más (EOF) o ocurra un error.
+	/*Leemos de stdin (fd = 0) un carácter cada vez.
+	read devuelve:
+		1 → leímos un carácter.
+		0 → EOF (fin de archivo).
+		<0 → error.*/
 	while ((r = read(0, &c, 1)) > 0)
 	{
 		// si el caracter leido es igual al del patron, sumamos 1 al contador
