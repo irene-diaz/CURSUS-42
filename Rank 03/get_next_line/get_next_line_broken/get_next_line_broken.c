@@ -95,7 +95,7 @@ char	*get_next_line(int fd)
 			return (NULL);
 		b[read_ret] = 0;
 	}
-	if (!str_append_mem(&ret, b, tmp - b + 1))
+	if (!str_append_mem[&ret, b, tmp - b + 1])
 	{
 		free(ret);
 		return (NULL);
