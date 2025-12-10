@@ -25,3 +25,43 @@ $> ./n_queens 7 | cat -e
 0 2 4 6 1 3 5$
 0 3 6 2 5 1 4$
 etc...
+
+ESPAÑOL
+
+Nombre del ejercicio: n_queens
+Archivos esperados: *.c *.h
+Funciones permitidas: atoi, fprintf, write
+
+-----------------------------------------------------------------------
+
+Escribe un programa que imprima todas las soluciones del problema de las n reinas, para un valor n dado como argumento.
+
+No se evaluará el programa con valores negativos.
+El orden en el que muestres las soluciones no importa.
+
+Debes mostrar cada solución de esta manera:
+<p1> <p2> <p3> ... \n
+donde:
+pn es el índice de la fila donde está la reina en la columna n
+empezando desde la fila 0
+
+Es decir, para cada columna dices en qué fila va la reina.
+
+📌 Ejemplos
+Ejemplo 1
+$> ./n_queens 2 | cat -e
+$
+
+
+(No hay soluciones para n=2)
+
+Ejemplo 2
+$> ./n_queens 4 | cat -e
+1 3 0 2$
+2 0 3 1$
+
+Ejemplo 3
+$> ./n_queens 7 | cat -e
+0 2 4 6 1 3 5$
+0 3 6 2 5 1 4$
+etc...
