@@ -4,6 +4,7 @@
 
 int	main(int argc, char **argv)
 {
+	// Comprobamos que se haya introducido un argumento y que no sea un string vacio y que sea un solo argumento
 	if (argc != 2 || argv[1][0] == '\0')
 		return (1);
 

@@ -22,3 +22,35 @@ $> echo 'abcdefgaaaabcdefabc' | ./filter abc | cat -e
 
 If the program is called whitout argument or with an empty argument or with
 multiples arguments it must return 1.
+
+
+ESPAÑOL
+
+Nombre de la tarea: filter
+Archivos esperados: *.c
+Funciones permitidas: read, strlen, malloc, calloc, realloc, free, printf, perror
+
+Escribe un programa que tome uno y solo un argumento s.
+
+Tu programa deberá leer desde stdin y escribir todo el contenido leído en stdout,
+excepto que cada ocurrencia de s debe ser reemplazada por *.
+
+Por ejemplo:
+
+./filter bonjour
+
+
+se comportará igual que:
+
+sed 's/bonjour/*******/g'
+
+
+En caso de error durante la lectura o un malloc, debes escribir "Error: " seguido del mensaje de error en stderr y devolver 1.
+
+Ejemplo:
+
+$> echo 'abcdefgaaaabcdefabc' | ./filter abc | cat -e
+***defgaaa***def***
+
+
+Si el programa se ejecuta sin argumento, con un argumento vacío, o con múltiples argumentos, debe devolver 1.
