@@ -27,6 +27,35 @@ $> ./powerset 12 5 2 1 8 4 3 7 11 | cat -e
 5 2 1 4$
 $> ./powerset 7 3 8 2| cat -e
 $
+$> ./powerset 0 1 -1| cat -eAssignment name : powerset
+Expected files : *.c *.h
+Allowed functions : atoi, printf, malloc, calloc, realloc, free.
+---------------------------------------------------------------
+
+Write a program that will take as argument an integer n follow by a set of integers,
+your program should display all the subsets of whose sum of elements is n.
+
+In case of a malloc error your program will exit with the code 1.
+We will not test invalid test(for example '1 1 2')
+hint: the empty set is a subset of anyset.
+
+
+For example this should work:
+$> ./powerset 3 1 0 2 4 5 3 | cat -e
+3$
+0 3$
+1 2$
+1 0 2$
+$> ./powerset 12 5 2 1 8 4 3 7 11 | cat -e
+8 4$
+1 11$
+1 4 7$
+2 3 7$
+5 4 3$
+5 7$
+5 2 1 4$
+$> ./powerset 7 3 8 2| cat -e
+$
 $> ./powerset 0 1 -1| cat -e
 $
 1 -1$
@@ -44,6 +73,91 @@ or:
 5$
 1 4$
 not valid:
+4 1$
+3 2$
+5$
+$
+1 -1$
+
+The order of lines is not important, but the order of the element in a subset is.
+You must not have any duplicates (for example 2 1, 1 2)
+$> ./powerset 5 1 2 3 4 5| cat -e
+valid:
+1 4$
+2 3$
+5$
+
+or:
+2 3$
+5$
+1 4$
+not valid:
+4 1$
+3 2$
+5$
+
+ESPAÑOL 
+
+Nombre de la tarea: powerset
+Archivos esperados: *.c *.h
+Funciones permitidas: atoi, printf, malloc, calloc, realloc, free.
+
+Escribe un programa que reciba como argumentos un entero n seguido de un conjunto de enteros.
+Tu programa debe mostrar todos los subconjuntos (subsets) cuyo suma de elementos sea n.
+
+En caso de error de malloc, el programa deberá salir con código 1.
+
+No se te probará con entradas inválidas (por ejemplo la misma restricción dos veces: '1 1 2' no aparece en tests).
+
+Pista: el conjunto vacío es subconjunto de cualquier conjunto.
+
+Formato de ejecución / ejemplos
+$> ./powerset 3 1 0 2 4 5 3 | cat -e
+3$
+0 3$
+1 2$
+1 0 2$
+
+$> ./powerset 12 5 2 1 8 4 3 7 11 | cat -e
+8 4$
+1 11$
+1 4 7$
+2 3 7$
+5 4 3$
+5 7$
+5 2 1 4$
+
+$> ./powerset 7 3 8 2 | cat -e
+$
+
+
+(ningún subconjunto suma 7 → salida vacía)
+
+$> ./powerset 0 1 -1 | cat -e
+$
+1 -1$
+
+
+(aquí el subconjunto 1 -1 suma 0; la línea vacía representa el conjunto vacío que también suma 0)
+
+Reglas importantes
+
+El orden de las líneas (el orden de los subconjuntos impresos) no importa.
+
+El orden de los elementos dentro de cada subconjunto sí importa.
+Es decir, 1 4 y 4 1 se consideran distintos; solo uno debe aparecer según el orden en el que tú elijas enumerarlos (pero no puedes imprimir ambos).
+
+No debe haber duplicados: si imprimes 1 4 no debes imprimir 4 1 también (ambos representan el mismo subconjunto si tu política de orden los considera iguales).
+
+Ejemplo válido (cualquiera de los dos órdenes de líneas es aceptable):
+
+1 4$
+2 3$
+5$
+
+
+Ejemplo no válido (porque repite el mismo subconjunto con orden distinto):
+
 4 1$
 3 2$
 5$

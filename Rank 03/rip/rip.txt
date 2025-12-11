@@ -25,3 +25,54 @@ $> ./rip '( ( ) ( ( ) (' | cat -e
 ( _ ) _ ( ) _ $
 _ ( ) ( _ ) _ $
 _ ( ) _ ( ) _ $
+
+ESPAÑOL
+
+Nombre de la tarea: rip
+Archivos esperados: *.c *.h
+Funciones permitidas: puts, write
+
+Escribe un programa que reciba como argumento una cadena que contenga únicamente paréntesis ( y ).
+
+Si los paréntesis están desequilibrados (por ejemplo "())"), tu programa debe eliminar el número mínimo de paréntesis para que la expresión quede equilibrada.
+
+“Eliminar” significa reemplazar por espacios.
+
+Debes imprimir todas las soluciones posibles (puede haber más de una).
+
+El orden de las soluciones no importa.
+
+Ejemplos
+
+Nota: en los ejemplos, el carácter _ significa un espacio, solo para que se vea más claro.
+
+$> ./rip '( ( )' | cat -e
+_ ( ) $
+( _ ) $
+
+$> ./rip '( ( ( ) ( ) ( ) ) ( ) )' | cat -e
+( ( ( ) ( ) ( ) ) ( ) ) $
+
+$> ./rip '( ) ( ) ) ( )' | cat -e
+( ) ( ) _ ( ) $
+( ) ( _ ) ( ) $
+( _ ( ) ) ( ) $
+
+$> ./rip '( ( ) ( ( ) (' | cat -e
+( ( ) _ _ ) _ $
+( _ ) ( _ ) _ $
+( _ ) _ ( ) _ $
+_ ( ) ( _ ) _ $
+_ ( ) _ ( ) _ $
+
+Reglas importantes
+
+Solo se consideran los caracteres ( y ).
+
+Debes eliminar la menor cantidad posible de paréntesis para equilibrar la expresión.
+
+Imprime todas las soluciones válidas (puede haber varias).
+
+Reemplazar un paréntesis eliminado por un espacio.
+
+El orden de las soluciones no importa.

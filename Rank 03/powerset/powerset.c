@@ -64,6 +64,8 @@ int	main(int argc, char **argv)
 
 	for (i = 0; i < n; i++)
 		arr[i] = atoi(argv[i + 2]);
+	for (i = 2; i < n; i++)
+		arr[i] = atoi(argv[i]);
 
 	int *subset = malloc(sizeof(int) * n);
 	if (!subset)

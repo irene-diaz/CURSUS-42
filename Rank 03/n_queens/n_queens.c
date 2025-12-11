@@ -7,9 +7,11 @@
  reina que ya hayamos colocado en columnas anteriores (0..col-1).*/
 int	is_safe(int *queens, int col, int row)
 {
-	int	i;
 	int	diff;
+	int	i;
 
+	// diferencia de filas entre una reina ya colocada y la que queremos situar.
+	//índice para recorrer columnas anteriores.
 	i = 0;
 	// recorremos todas las columnas anteriores
 	while (i < col)
@@ -94,6 +96,7 @@ int	main(int argc, char **argv)
 	// control de numero de argumentos
 	if (argc != 2)
 	{
+		//generamos un mensaje de error 
 		fprintf(stderr, "Usage: %s n\n", argv[0]);
 		return (1);
 	}
