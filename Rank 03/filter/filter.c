@@ -2,6 +2,7 @@
 #include <string.h>
 #include <unistd.h>
 
+
 int	main(int argc, char **argv)
 {
 	// Comprobamos que se haya introducido un argumento y que no sea un string vacio y que sea un solo argumento
@@ -9,10 +10,9 @@ int	main(int argc, char **argv)
 		return (1);
 
 	char c;
-	// palabra que queremos sustituir
-	char *pat = argv[1];
-	// longitud de esa palabra
-	size_t plen = strlen(pat);
+	// Variable para almacenar cada carácter leído de stdin.
+	char *pat = argv[1];       // El patrón a buscar (ej. "abc").
+	size_t plen = strlen(pat); // longitud de esa palabra
 	// cuántos caracteres del patrón ya hemos comprobado (prefijo coincidente)
 	size_t i = 0;
 	// valor de retorno del read (para controlar errores debemos usar ssize_t)
@@ -38,7 +38,7 @@ int	main(int argc, char **argv)
 				while (j < plen)
 				{
 					// escribimos *
-					write(1, "*", 1);
+					printf("*");
 					j++;
 				}
 				i = 0; // para no mostrar el caracter como tal
@@ -49,10 +49,11 @@ int	main(int argc, char **argv)
 			// si el contador es mas que 0,quiere decir que el patron no es igual
 			if (i > 0)
 			{
-				write(1, pat, i); // escribir coincidencia parcial
+				printf("%.*s", (int)i, pat);
+				// Escribe los primeros i caracteres de pat
 				i = 0;
 			}
-			write(1, &c, 1);
+			printf("%c", c);
 		}
 	}
 	// Si read devolvió error, lo reportamos y salimos con 1.
@@ -60,6 +61,11 @@ int	main(int argc, char **argv)
 	{
 		perror("Error");
 		return (1);
+	}
+	// Agregado: manejar coincidencias parciales al final de la entrada
+	if (i > 0)
+	{
+		printf("%.*s", (int)i, pat);
 	}
 	return (0);
 }
