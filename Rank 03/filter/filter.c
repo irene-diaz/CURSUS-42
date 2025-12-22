@@ -52,6 +52,12 @@ int	main(int argc, char **argv)
 				printf("%.*s", (int)i, pat);
 				// Escribe los primeros i caracteres de pat
 				i = 0;
+				// comprobamos si el caracter es el principio del patron
+				if (c == pat[0])
+				{
+					i = 1;
+					continue ;
+				}
 			}
 			printf("%c", c);
 		}
@@ -59,7 +65,7 @@ int	main(int argc, char **argv)
 	// Si read devolvió error, lo reportamos y salimos con 1.
 	if (r < 0)
 	{
-		perror("Error");
+		perror("Error: ");
 		return (1);
 	}
 	// Agregado: manejar coincidencias parciales al final de la entrada

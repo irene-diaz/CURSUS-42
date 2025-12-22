@@ -3,8 +3,8 @@
 char	*get_next_line(int fd)
 {
 	static char	buffer[BUFFER_SIZE];
-	static int	index_buffer;
 	static int	bytes_read;
+	static int	index_buffer;
 	int			index;
 	char		*lines;
 
@@ -14,6 +14,10 @@ char	*get_next_line(int fd)
 	}
 	index = 0;
 	lines = malloc(10000);
+	if (!lines)
+	{
+		return (NULL);
+	}
 	while (1)
 	{
 		if (bytes_read <= index_buffer)
@@ -25,9 +29,7 @@ char	*get_next_line(int fd)
 		}
 		lines[index++] = buffer[index_buffer++];
 		if (lines[index - 1] == '\n')
-		{
 			break ;
-		}
 	}
 	if (index == 0)
 	{
@@ -45,10 +47,10 @@ int	main(int argc, char *argv[])
 
 	char *lines;
 	int fd = open(argv[1], O_RDONLY);
-
 	while ((lines = get_next_line(fd)) != NULL)
 	{
 		printf("%s", lines);
 		free(lines);
 	}
+	close(fd);
 }

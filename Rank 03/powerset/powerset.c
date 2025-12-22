@@ -51,7 +51,7 @@ int	main(int argc, char **argv)
 
 	// control de argumentos
 	if (argc < 2)
-		return (0);
+		return (1);
 
 	// convertimos la cadena de suma objetivo en un nº
 	target = atoi(argv[1]);
@@ -64,8 +64,6 @@ int	main(int argc, char **argv)
 
 	for (i = 0; i < n; i++)
 		arr[i] = atoi(argv[i + 2]);
-	for (i = 2; i < n; i++)
-		arr[i] = atoi(argv[i]);
 
 	int *subset = malloc(sizeof(int) * n);
 	if (!subset)

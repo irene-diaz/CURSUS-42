@@ -52,32 +52,32 @@ void	sort_string(char *s)
 }
 
 // backtracking para generar permutaciones
-/*int l= inicio de la cadena(indice)
-int r=final de la cadena(indice)*/
-void	permute(char *str, int l, int r)
+/*int start= inicio de la cadena(indice)
+int end=final de la cadena(indice)*/
+void	permute(char *str, int start, int end)
 {
 	int	i;
 
-	/* Caso base: Si l == r,
+	/* Caso base: Si start == end,
 		significa que hemos fijado todos los caracteres hasta el final.*/
-	if (l == r)
+	if (start == end)
 	{
 		putstr_ln(str);
 		return ;
 	}
-	i = l;
+	i = start;
 	// con este bucle hacemos todas las permutaciones posibles de la subcadena str[l..r]
-	while (i <= r)
+	while (i <= end)
 	{
-		/*Intercambia el carácter en la posición l con el carácter en la posición i.
-		Esto fija el carácter que estará en la posición l para esta permutación.*/
-		swap(&str[l], &str[i]);
-		// Llamada recursiva: permutamos la subcadena restante (desde l+1 hasta r).
-		permute(str, l + 1, r);
-		/*Después de explorar todas las permutaciones que comienzan con str[l] en esta posición,
+		/*Intercambia el carácter en la posición start con el carácter en la posición i.
+		Esto fija el carácter que estará en la posición start para esta permutación.*/
+		swap(&str[start], &str[i]);
+		// Llamada recursiva: permutamos la subcadena restante (desde start+1 hasta end).
+		permute(str, start + 1, end);
+		/*Después de explorar todas las permutaciones que comienzan con str[start] en esta posición,
 		deshacemos el swap para restaurar la cadena original.
 		Esto es fundamental para no alterar la cadena al probar otras combinaciones.*/
-		swap(&str[l], &str[i]); // backtrack
+		swap(&str[start], &str[i]); // backtrack
 		// Avanzamos para probar otro carácter en la posición l
 		i++;
 	}
