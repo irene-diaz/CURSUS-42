@@ -51,51 +51,74 @@ void	sort_string(char *s)
 	}
 }
 
-// backtracking para generar permutaciones
-/*int start= inicio de la cadena(indice)
-int end=final de la cadena(indice)*/
-void	permute(char *str, int start, int end)
+int	ft_strlen(char *str)
 {
 	int	i;
 
-	/* Caso base: Si start == end,
-		significa que hemos fijado todos los caracteres hasta el final.*/
-	if (start == end)
+	i = 0;
+	while (*str)
 	{
-		putstr_ln(str);
-		return ;
-	}
-	i = start;
-	// con este bucle hacemos todas las permutaciones posibles de la subcadena str[l..r]
-	while (i <= end)
-	{
-		/*Intercambia el carácter en la posición start con el carácter en la posición i.
-		Esto fija el carácter que estará en la posición start para esta permutación.*/
-		swap(&str[start], &str[i]);
-		// Llamada recursiva: permutamos la subcadena restante (desde start+1 hasta end).
-		permute(str, start + 1, end);
-		/*Después de explorar todas las permutaciones que comienzan con str[start] en esta posición,
-		deshacemos el swap para restaurar la cadena original.
-		Esto es fundamental para no alterar la cadena al probar otras combinaciones.*/
-		swap(&str[start], &str[i]); // backtrack
-		// Avanzamos para probar otro carácter en la posición l
+		str++;
 		i++;
+	}
+	return (i);
+}
+
+// backtracking para generar permutaciones
+/*int start= inicio de la cadena(indice)
+int end=final de la cadena(indice)*/
+void	reverse(char *s, int start, int end)
+{
+	while (start < end)
+	{
+		swap(&s[start], &s[end]);
+		start++;
+		end--;
 	}
 }
 
-int	main(int argc, char **argv)
+// Nueva función: Generar la siguiente permutación en orden lexicográfico
+// Retorna 1 si hay siguiente, 0 si no
+int	next_permutation(char *s, int len)
 {
-	int len = 0;
+	int	i;
+	int	j;
 
-	// control de agumentos
+	// Paso 1: Encontrar el mayor i donde s[i] < s[i+1]
+	i = len - 2;
+	while (i >= 0 && s[i] >= s[i + 1])
+		i--;
+	if (i < 0)
+		return (0); // No hay más permutaciones
+	// Paso 2: Encontrar el mayor j > i donde s[i] < s[j]
+	j = len - 1;
+	while (s[j] <= s[i])
+		j--;
+	// Paso 3: Swap s[i] y s[j]
+	swap(&s[i], &s[j]);
+	// Paso 4: Invertir desde i+1 hasta el final
+	reverse(s, i + 1, len - 1);
+	return (1);
+}
+
+int	main(int argc, char *argv[])
+{
+	int len;
+
 	if (argc != 2)
 		return (1);
-	// calculamos la longitud de la cadena dada por agurmento
-	while (argv[1][len])
-		len++;
-	// ordenar primero para asegurar orden alfabético
+	len = ft_strlen(argv[1]);
+	if (len == 0)
+		return (1); // Caso borde: cadena vacía
+
+	// Ordenar la cadena para empezar con la primera permutación
 	sort_string(argv[1]);
-	// hacemos las permutaciones que permita el string
-	permute(argv[1], 0, len - 1);
+
+	// Imprimir todas las permutaciones en orden
+	do
+	{
+		putstr_ln(argv[1]);
+	} while (next_permutation(argv[1], len));
+
 	return (0);
 }
