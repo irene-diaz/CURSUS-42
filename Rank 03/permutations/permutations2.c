@@ -1,6 +1,7 @@
+#include <stdlib.h>
 #include <unistd.h>
 
-void	ft_strln(char *str)
+void	ft_putstr_ln(char *str)
 {
 	int	i;
 
@@ -22,7 +23,7 @@ void	swap(char *a, char *b)
 	*b = tmp;
 }
 
-void	sort_str(char *s)
+void	sort_string(char *s)
 {
 	int		i;
 	int		j;
@@ -62,15 +63,14 @@ int	next_permutation(char *str, int len)
 	int	i;
 	int	j;
 
+	j = 0;
 	i = len - 2;
 	while (i >= 0 && str[i] >= str[i + 1])
 	{
 		i--;
 	}
 	if (i < 0)
-	{
 		return (0);
-	}
 	j = len - 1;
 	while (str[j] <= str[i])
 	{
@@ -93,23 +93,22 @@ int	ft_strlen(char *str)
 	}
 	return (i);
 }
-
 int	main(int argc, char *argv[])
 {
 	if (argc != 2)
 		return (1);
 
 	int len = ft_strlen(argv[1]);
-	if (len == 0)
-	{
-		return (1);
-	}
 
-	sort_str(argv[1]);
+	if (len == 0)
+		return (1);
+
+	sort_string(argv[1]);
 
 	do
 	{
-		ft_strln(argv[1]);
+		ft_putstr_ln(argv[1]);
 	} while (next_permutation(argv[1], len));
+
 	return (0);
 }

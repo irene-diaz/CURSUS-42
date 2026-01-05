@@ -1,10 +1,10 @@
-#include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 
 int	is_safe(int *queens, int col, int row)
 {
-	int	diff;
 	int	i;
+	int	diff;
 
 	i = 0;
 	while (i < col)
@@ -16,7 +16,7 @@ int	is_safe(int *queens, int col, int row)
 			return (0);
 		i++;
 	}
-	return (i);
+	return (1);
 }
 
 void	ft_putnbr(int n)
@@ -65,28 +65,17 @@ void	solve(int *queens, int col, int n)
 	}
 }
 
-int	main(int argc, char **argv)
+int	main(int argc, char *argv[])
 {
-	int n;
-	int *queens;
-
 	if (argc != 2)
-	{
-		fprintf(stderr, "Usage: %s n\n", argv[0]);
 		return (1);
-	}
 
-	n = atoi(argv[1]);
+	int queens[20];
+	int n = atoi(argv[1]);
 
 	if (n <= 0)
-		return (1);
-
-	queens = malloc(sizeof(int) * n);
-	if (!queens)
-		return (1);
+		return (0);
 
 	solve(queens, 0, n);
-
-	free(queens);
 	return (0);
 }

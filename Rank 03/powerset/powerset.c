@@ -14,7 +14,7 @@ subset_len → longitud actual del subconjunto.
 
 index → índice desde donde se elige el siguiente elemento para evitar duplicados y mantener el orden.*/
 void	powerset(int *arr, int size, int target, int *subset, int subset_len,
-		int index)
+		int index, int *result)
 {
 	int	i;
 	int	sum;
@@ -26,6 +26,7 @@ void	powerset(int *arr, int size, int target, int *subset, int subset_len,
 	// si la suma coincide, imprimimos el subset
 	if (sum == target)
 	{
+		*result = 1;
 		for (i = 0; i < subset_len; i++)
 		{
 			printf("%d", subset[i]);
@@ -38,7 +39,7 @@ void	powerset(int *arr, int size, int target, int *subset, int subset_len,
 	for (i = index; i < size; i++)
 	{
 		subset[subset_len] = arr[i];
-		powerset(arr, size, target, subset, subset_len + 1, i + 1);
+		powerset(arr, size, target, subset, subset_len + 1, i + 1, result);
 	}
 }
 
@@ -48,6 +49,7 @@ int	main(int argc, char **argv)
 	int *arr;
 	int i;
 	int n;
+	int result = 0;
 
 	// control de argumentos
 	if (argc < 2)
@@ -72,7 +74,10 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 
-	powerset(arr, n, target, subset, 0, 0);
+	powerset(arr, n, target, subset, 0, 0, &result);
+
+	if (result == 0)
+		printf("\n");
 
 	free(arr);
 	free(subset);

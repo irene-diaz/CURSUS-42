@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -91,33 +90,23 @@ void	solve(int *queens, int col, int n)
 int	main(int argc, char **argv)
 {
 	int n;
-	int *queens;
+	int queens[20];
 
 	// control de numero de argumentos
 	if (argc != 2)
 	{
-		//generamos un mensaje de error 
-		fprintf(stderr, "Usage: %s n\n", argv[0]);
 		return (1);
 	}
 
 	// conversion de string a numero del nº de reinas que queremos colocar
 	n = atoi(argv[1]);
 
-	// lanzamos un error si el nº de reinas es negativo
+	// No es un error, no hay soluciones, asi que no imprimimos nada
 	if (n <= 0)
-		return (1);
-
-	// reservamos memoria para el nº de reinas
-	queens = malloc(sizeof(int) * n);
-	// comprobacion del malloc
-	if (!queens)
-		return (1);
+		return (0);
 
 	// llamamos recursivamente a la funcion para ir llenando el tablero
 	solve(queens, 0, n);
 
-	// liberamos la memoria
-	free(queens);
 	return (0);
 }

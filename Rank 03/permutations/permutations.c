@@ -1,4 +1,3 @@
-#include <stdlib.h>
 #include <unistd.h>
 
 // función para imprimir un string + '\n' usando write

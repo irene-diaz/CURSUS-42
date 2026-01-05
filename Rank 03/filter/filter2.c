@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
@@ -45,14 +46,17 @@ int	main(int argc, char *argv[])
 			printf("%c", c);
 		}
 	}
+
 	if (r < 0)
 	{
 		perror("Error: ");
 		return (1);
 	}
+
 	if (i > 0)
 	{
 		printf("%.*s", (int)i, pat);
 	}
+
 	return (0);
 }

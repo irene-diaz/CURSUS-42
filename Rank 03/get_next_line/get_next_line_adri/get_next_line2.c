@@ -14,8 +14,10 @@ char	*get_next_line(int fd)
 	{
 		return (NULL);
 	}
-	index = 0;
 	lines = malloc(10000);
+	if (!lines)
+		return (NULL);
+	index = 0;
 	while (1)
 	{
 		if (bytes_read <= index_buffer)
@@ -37,22 +39,20 @@ char	*get_next_line(int fd)
 	lines[index] = '\0';
 	return (lines);
 }
+
 #include <fcntl.h>
 #include <stdio.h>
 
 int	main(int argc, char *argv[])
 {
-	char *lines;
 	if (argc != 2)
-	{
 		return (1);
-	}
+
+	char *lines;
 	int fd = open(argv[1], O_RDONLY);
 
 	while ((lines = get_next_line(fd)) != NULL)
 	{
 		printf("%s", lines);
 	}
-	close(fd);
-	return (0);
 }
