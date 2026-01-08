@@ -108,7 +108,7 @@ int	main(int argc, char *argv[])
 		return (1);
 	len = ft_strlen(argv[1]);
 	if (len == 0)
-		return (1); // Caso borde: cadena vacía
+		return (0); // Caso borde: cadena vacía
 
 	// Ordenar la cadena para empezar con la primera permutación
 	sort_string(argv[1]);
