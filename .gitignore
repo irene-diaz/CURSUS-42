@@ -1,0 +1,10 @@
+# Binarios y compilados
+*.o
+a.out
+*.out
+
+# Ejecutables de pipex
+pipex
+
+# Temporales
+*~
