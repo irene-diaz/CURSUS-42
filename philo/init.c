@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: idiaz-ca <idiaz-ca@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/08 20:39:43 by idiaz-ca          #+#    #+#             */
+/*   Updated: 2026/02/08 20:39:44 by idiaz-ca         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 /*Esta funcion prepara la mesa antes de sentar a los filósofos.
@@ -61,6 +73,8 @@ int	init_philos(t_data *data, t_philo **philos)
 		// damos a cada filosofo acceso a la estructura compartida de la mesa,esto se usa para que puedan acceder a los parametros globales y a los tenedores
 		(*philos)[i].data = data;
 
+		// asignamos a cada filosofo sus tenedores,el tenedor de la izquierda es el que tiene el mismo indice que el filosofo
+		(*philos)[i].left_fork = &data->forks[i];
 		// asignamos a cada filosofo sus tenedores,el tenedor de la izquierda es el que tiene el mismo indice que el filosofo
 		(*philos)[i].left_fork = &data->forks[i];
 		// y el tenedor de la derecha es el siguiente en el array,con modulo para que el ultimo filosofo tenga como tenedor derecho al primero
