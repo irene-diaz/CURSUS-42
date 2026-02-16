@@ -6,11 +6,11 @@
 /*   By: idiaz-ca <idiaz-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/08 20:39:43 by idiaz-ca          #+#    #+#             */
-/*   Updated: 2026/02/08 20:39:44 by idiaz-ca         ###   ########.fr       */
+/*   Updated: 2026/02/16 12:37:36 by idiaz-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo.h"
 
 /*Esta funcion prepara la mesa antes de sentar a los filósofos.
 Concretamente:
