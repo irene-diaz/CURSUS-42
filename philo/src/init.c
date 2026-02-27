@@ -1,85 +1,76 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: idiaz-ca <idiaz-ca@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/08 20:39:43 by idiaz-ca          #+#    #+#             */
-/*   Updated: 2026/02/16 12:37:36 by idiaz-ca         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "philo.h"
 
-#include "../philo.h"
-
-/*Esta funcion prepara la mesa antes de sentar a los filósofos.
-Concretamente:
-1️⃣ Guarda el tiempo de inicio
-2️⃣ Inicializa flags
-3️⃣ Reserva los tenedores
-4️⃣ Inicializa los mutex*/
-int	init_data(t_data *data)
+// INICIALIZAR LOS VALORES DE LA ESTRUCTURA DE DATOS
+int	init_data(t_data *data, int argc, char **argv)
 {
 	int	i;
 
-	// guardamos el timestamp de inicio de la simulacion,se usa para calcular el tiempo transcurrido y para detectar la muerte de los filosofos
-	data->start_time = get_time();
-	// inicializamos el flag de muerte a 0,la simulacion empieza con todos los filosofos vivos
-	data->someone_died = 0;
-	// reservamos memoria para el array de mutex que representan los tenedores,cada tenedor es un mutex que solo puede ser tomado por un filosofo a la vez
+	/*validamos los argumentos, deben ser 4 argumentos: nº de filosofos,
+	tiempo para morir, tiempo para comer y tiempo para dormir*/
+	if (argc != 5 && argc != 6)
+	{
+		printf("Usage: ./philo number_of_philos time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]\n");
+		return (1);
+	}
+	/*inicializamos los valores de la estructura de datos*/
+	data->nb_philo = atoi(argv[1]);
+	data->time_to_die = atol(argv[2]);
+	data->time_to_eat = atol(argv[3]);
+	data->time_to_sleep = atol(argv[4]);
+	/*comprobamos que los argumentos sean validos,
+		el nº de filosofos debe ser mayor a 0 y los tiempos deben ser mayores o iguales a 0*/
+	if (data->nb_philo <= 0 || data->time_to_die < 0 || data->time_to_eat < 0
+		|| data->time_to_sleep < 0)
+	{
+		printf("Invalid arguments\n");
+		return (1);
+	}
+	// CREAR TENEDORES
+	/*reservamos memoria para los tenedores*/
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->nb_philo);
 	if (!data->forks)
 		return (1);
+	/*inicializamos los mutex de los tenedores*/
 	i = 0;
-	// inicializamos cada mutex del array de tenedores,esto convierte cada tenedor en un candado real
 	while (i < data->nb_philo)
 	{
-		// si falla la inicializacion de algun mutex,devolvemos 1 para indicar error
-		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
-			return (1);
+		pthread_mutex_init(&data->forks[i], NULL);
 		i++;
 	}
-	// inicializamos el mutex de impresion(print_mutex),esto se usa para sincronizar la salida por pantalla,evitando que los mensajes de diferentes filosofos se mezclen
-	if (pthread_mutex_init(&data->print_mutex, NULL) != 0)
-		return (1);
+	printf("Forks initialized correctly\n");
 	return (0);
 }
-/*Esta funcion:
-1️⃣ Reserva memoria para los filósofos
-2️⃣ Inicializa cada filósofo
-3️⃣ Les asigna sus tenedores
-4️⃣ Les da acceso a t_data
-*/
+
+// INICIALIZAR LOS FILOSOFOS
 int	init_philos(t_data *data, t_philo **philos)
 {
-	int i;
+	int	i;
 
-	// reservamos memoria para el array de filosofos
+	/*reservamos memoria para los filosofos*/
 	*philos = malloc(sizeof(t_philo) * data->nb_philo);
 	if (!*philos)
 		return (1);
+	/*inicializamos los valores de cada filosofo*/
 	i = 0;
+	/*recorremos el array de filosofos*/
 	while (i < data->nb_philo)
 	{
-		// asignamos un id a cada filosofo,esto se usa para identificarlo y para asignarle sus tenedores
-		(*philos)[i].id = i;
-		/*inicializamos el tiempo de la ultima comida al tiempo de inicio de la simulacion,
-			esto se usa para detectar la muerte,
-			si un filosofo no ha comido desde el inicio y el tiempo transcurrido supera time_to_die,entonces muere
-		*/
-		(*philos)[i].last_meal = data->start_time;
-		// inicializamos el numero de comidas realizadas a 0,esto se actualizara cada vez que el filosofo coma,y se usara para detectar si ha alcanzado el limite de comidas(must_eat)
-		(*philos)[i].meals_eaten = 0;
-		// damos a cada filosofo acceso a la estructura compartida de la mesa,esto se usa para que puedan acceder a los parametros globales y a los tenedores
+		/* El id del filosofo empieza en 1 para facilitar la lectura de los mensajes,
+			aunque internamente se maneje como un array que empieza en 0 */
+		(*philos)[i].id = i + 1;
 		(*philos)[i].data = data;
-
-		// asignamos a cada filosofo sus tenedores,el tenedor de la izquierda es el que tiene el mismo indice que el filosofo
+		/* El tiempo de la última comida se inicializa en 0 */
+		(*philos)[i].last_meal = 0;
+		/* Inicializamos el mutex para proteger el acceso a last_meal,
+		ya que puede ser modificado por el hilo del filosofo y leído por el hilo de monitoreo */
+		pthread_mutex_init(&(*philos)[i].meal_mutex, NULL);
+		// Cada filósofo coge el fork de la izquierda y la derecha
 		(*philos)[i].left_fork = &data->forks[i];
-		// asignamos a cada filosofo sus tenedores,el tenedor de la izquierda es el que tiene el mismo indice que el filosofo
-		(*philos)[i].left_fork = &data->forks[i];
-		// y el tenedor de la derecha es el siguiente en el array,con modulo para que el ultimo filosofo tenga como tenedor derecho al primero
+		/* el tenedor de la derecha del ultimo filosofo es el primero,
+			esto se logra con el operador modulo */
 		(*philos)[i].right_fork = &data->forks[(i + 1) % data->nb_philo];
 		i++;
 	}
+	printf("Philosophers initialized correctly\n");
 	return (0);
 }

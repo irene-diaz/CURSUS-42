@@ -18,7 +18,10 @@ INCLUDES	= -I$(INCLUDE_DIR)
 
 SRC =	$(SRC_DIR)/main.c \
 		$(SRC_DIR)/init.c \
-		$(SRC_DIR)/utils.c
+		$(SRC_DIR)/lib_utils.c \
+		$(SRC_DIR)/routines.c \
+		$(SRC_DIR)/utils.c \
+		$(SRC_DIR)/monitor.c \
 
 OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 
