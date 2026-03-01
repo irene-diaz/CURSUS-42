@@ -1,4 +1,4 @@
-#include "philo.h"
+#include "../philo.h"
 
 // INICIALIZAR LOS VALORES DE LA ESTRUCTURA DE DATOS
 int	init_data(t_data *data, int argc, char **argv)

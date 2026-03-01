@@ -46,8 +46,17 @@ void	*philo_routine(void *arg)
 {
 	t_philo	*philo;
 
-	philo = (t_philo *)arg;
 	// Convertimos el puntero genérico a un puntero a t_philo para acceder a sus campos
+	philo = (t_philo *)arg;
+	// CASO ESPECIAL: 1 filósofo
+	if (philo->data->nb_philo == 1)
+	{
+		pthread_mutex_lock(philo->left_fork);
+		print_status(philo, "has taken a fork");
+		usleep(philo->data->time_to_die * 1000);
+		pthread_mutex_unlock(philo->left_fork);
+		return (NULL);
+	}
 	// printf("Philosopher %d is alive\n", philo->id);
 	/* El bucle infinito simula el ciclo de vida del filosofo,
 		que consiste en comer, dormir y pensar */
