@@ -6,10 +6,9 @@
 /*   By: idiaz-ca <idiaz-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/08 14:12:35 by idiaz-ca          #+#    #+#             */
-/*   Updated: 2026/02/27 13:47:45 by idiaz-ca         ###   ########.fr       */
+/*   Updated: 2026/03/02 14:01:29 by idiaz-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef PHILO_H
 # define PHILO_H
@@ -17,67 +16,66 @@
 /* ================= INCLUDES ================= */
 
 # include <pthread.h>
-# include <stdlib.h>
 # include <stdio.h>
-# include <unistd.h>
+# include <stdlib.h>
 # include <sys/time.h>
+# include <unistd.h>
 
 /* ================= STRUCTS ================= */
-//ESTRUCTURA DE LA MESA DE TRABAJO(compartida)
+
+/* Shared table structure */
 typedef struct s_data
 {
-    int             nb_philo; //nº de filosofos, lo que se traduce en nº de tenedores
-    //tiempos en milisegundos, todos los filosofos usan los mismos tiempos
-    long            time_to_die;
-    long            time_to_eat;
-    long            time_to_sleep;
+	int				nb_philo;
+	long			time_to_die;
+	long			time_to_eat;
+	long			time_to_sleep;
 
-    long            start_time; //momento en que se inicia la simulacion, se usa para calcular el tiempo transcurrido(timestamp)
-    
-	int				simulation_running; //flag para indicar si la simulacion sigue en curso, se usa para que el hilo de los filosofos y el hilo de monitoreo puedan terminar cuando sea necesario
-	pthread_mutex_t	state_mutex; //mutex para proteger el acceso a simulation_running, ya que puede ser modificado por el hilo de monitoreo y leído por los hilos de los filosofos
+	long			start_time;
 
-    pthread_mutex_t *forks; //array de mutex para representar los tenedores, cada tenedor es un mutex que solo puede ser tomado por un filosofo a la vez
-    pthread_mutex_t print_mutex; //mutex para sincronizar la salida por pantalla, evitando que los mensajes de diferentes filosofos se mezclen
+	int				simulation_running;
+	pthread_mutex_t	state_mutex;
 
-    pthread_t		monitor_thread; //hilo que se encarga de monitorear la muerte de los filosofos, se ejecuta en paralelo a los hilos de los filosofos y verifica constantemente si alguno ha muerto por no haber comido a tiempo
-}   t_data;
+	pthread_mutex_t	*forks;
+	pthread_mutex_t	print_mutex;
 
-//ESTRUCTURA DE LOS FILOSOFOS(individual), esta estructura representa 1 hilo(1 filosofo)
+	pthread_t		monitor_thread;
+}					t_data;
+
+/* Philosopher structure (individual) - represents one thread */
 typedef struct s_philo
 {
-    int             id; //identificador del filosofo, va de 0 a nb_philo-1
-    pthread_t       thread; //el hilo real del sistema, se crea con pthread_create y se ejecuta la funcion que simula el comportamiento del filosofo
+	int				id;
+	pthread_t		thread;
 
-    pthread_mutex_t *left_fork; //tenedor de la izquierda
-    pthread_mutex_t *right_fork; //tenedor de la derecha
+	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	*right_fork;
 
-    long            last_meal; //tiempo de la utlima comida, se usa para detectar la muerte
-	pthread_mutex_t	meal_mutex; //mutex para proteger el acceso a last_meal, ya que puede ser modificado por el hilo del filosofo y leído por el hilo que monitorea la muerte
-    
-    t_data          *data; //puntero a la estructura compartida de la mesa, para acceder a los parametros globales y a los tenedores
-}   t_philo;
+	long			last_meal;
+	pthread_mutex_t	meal_mutex;
+
+	t_data			*data;
+}					t_philo;
 
 /* ================= FUNCTIONS ================= */
 
-
 /*utils lib*/
-int     ft_atoi(const char *str);
-long    ft_atol(const char *str);
+int					ft_atoi(const char *str);
+long				ft_atol(const char *str);
 
 /*utils*/
-void	print_status(t_philo *philo, char *msg);
-long	get_time_in_ms(void);
-long	timestamp(t_data *data);
+void				print_status(t_philo *philo, char *msg);
+long				get_time_in_ms(void);
+long				timestamp(t_data *data);
 
 // init.c
-int		init_data(t_data *data, int argc, char **argv);
-int		init_philos(t_data *data, t_philo **philos);
+int					init_data(t_data *data, int argc, char **argv);
+int					init_philos(t_data *data, t_philo **philos);
 
 /*routines*/
-void	*philo_routine(void *arg);
+void				*philo_routine(void *arg);
 
 /*monitor*/
-void	*monitor_routine(void *arg);
+void				*monitor_routine(void *arg);
 
 #endif
