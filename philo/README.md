@@ -48,7 +48,7 @@ This will generate the executable:
 
 ### Usage
 ```bash
-./philo number_of_philosophers time_to_die time_to_eat 
+./philo number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]
 ```
 All time values are in milliseconds.
 
@@ -56,6 +56,12 @@ All time values are in milliseconds.
 ```bash
 ./philo 5 800 200 200
 ```
+Or, with the optional fifth argument:
+
+```bash
+./philo 5 800 200 200 7
+```
+In this case, the simulation stops automatically when each philosopher has eaten at least 7 times.
 
 #### Arguments:
 
@@ -66,6 +72,8 @@ All time values are in milliseconds.
 - time_to_eat: Time (ms) spent eating.
 
 - time_to_sleep: Time (ms) spent sleeping.
+
+- number_of_times_each_philosopher_must_eat (optional): If provided, the simulation ends when all philosophers have eaten at least this many times. If omitted, the simulation ends only upon a philosopher's death.
 
 ### Example Output
 
@@ -111,7 +119,7 @@ A dedicated monitor thread detects death conditions.
 
 The special case of one philosopher is handled explicitly to avoid self-deadlock.
 
-The simulation stops immediately after a death is detected.
+The simulation stops immediately after a death is detected or when all philosophers have eaten enough times (if the fifth argument is provided).
 
 ### Edge Cases Handled
 - Single philosopher (cannot eat, dies correctly).
@@ -121,6 +129,8 @@ The simulation stops immediately after a death is detected.
 - High contention scenarios.
 
 - Clean thread termination using pthread_join.
+
+- Optional stopping condition when all philosophers have eaten enough.
 
 ## Resources
 The following references were used while developing this project:

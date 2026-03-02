@@ -6,7 +6,7 @@
 /*   By: idiaz-ca <idiaz-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/08 14:12:35 by idiaz-ca          #+#    #+#             */
-/*   Updated: 2026/03/02 14:01:29 by idiaz-ca         ###   ########.fr       */
+/*   Updated: 2026/03/02 14:06:08 by idiaz-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_data
 	long			time_to_die;
 	long			time_to_eat;
 	long			time_to_sleep;
+	int				must_eat_count;
 
 	long			start_time;
 
@@ -50,6 +51,8 @@ typedef struct s_philo
 
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
+
+	int				meals_eaten;
 
 	long			last_meal;
 	pthread_mutex_t	meal_mutex;

@@ -6,13 +6,33 @@
 /*   By: idiaz-ca <idiaz-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 10:34:06 by idiaz-ca          #+#    #+#             */
-/*   Updated: 2026/03/02 10:34:45 by idiaz-ca         ###   ########.fr       */
+/*   Updated: 2026/03/02 15:01:40 by idiaz-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
 // Simulate philosophers' behavior
+
+/** Sleep function that checks periodically if the simulation is still running,
+	to allow for responsive shutdown */
+static void	smart_sleep(long time, t_data *data)
+{
+	long	start;
+
+	start = get_time_in_ms();
+	while (get_time_in_ms() - start < time)
+	{
+		pthread_mutex_lock(&data->state_mutex);
+		if (!data->simulation_running)
+		{
+			pthread_mutex_unlock(&data->state_mutex);
+			break ;
+		}
+		pthread_mutex_unlock(&data->state_mutex);
+		usleep(500);
+	}
+}
 
 /* This function simulates a philosopher's behavior, specifically eating */
 static void	eat(t_philo *philo)
@@ -33,9 +53,10 @@ static void	eat(t_philo *philo)
 	}
 	pthread_mutex_lock(&philo->meal_mutex);
 	philo->last_meal = get_time_in_ms();
+	philo->meals_eaten++;
 	pthread_mutex_unlock(&philo->meal_mutex);
 	print_status(philo, "is eating");
-	usleep(philo->data->time_to_eat * 1000);
+	smart_sleep(philo->data->time_to_eat, philo->data);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
 }
@@ -68,6 +89,8 @@ void	*philo_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
+	if (philo->id % 2 == 0)
+		usleep(500);
 	if (philo->data->nb_philo == 1)
 	{
 		handle_single(philo);
@@ -79,7 +102,7 @@ void	*philo_routine(void *arg)
 		if (!is_running(philo->data))
 			break ;
 		print_status(philo, "is sleeping");
-		usleep(philo->data->time_to_sleep * 1000);
+		smart_sleep(philo->data->time_to_sleep, philo->data);
 		if (!is_running(philo->data))
 			break ;
 		print_status(philo, "is thinking");
