@@ -73,8 +73,9 @@ static int	all_ate_enough(t_data *data, t_philo *philos)
 		pthread_mutex_unlock(&philos[i].meal_mutex);
 		i++;
 	}
-	// Si todos los filósofos han comido suficientes veces,
-	terminamos la simulación if (finished == data->nb_philo)
+	/* Si todos los filósofos han comido suficientes veces,
+	terminamos la simulación */
+	if (finished == data->nb_philo)
 	{
 		pthread_mutex_lock(&data->state_mutex);
 		data->simulation_running = 0;
