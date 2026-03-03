@@ -1,0 +1,19 @@
+
+1. Variables básicas: $HOME → /home/usuario, $? → exit code, $$ → PID
+2. Eliminar comillas: 'hola' → hola, "hola" → hola (simples bloquean expansión, dobles permiten)
+3. Tilde: ~ → /home/usuario, ~/docs → /home/usuario/docs
+4. Globbing: *.c → main.c parser.c tokenizer.c (un argumento se convierte en varios)
+5. Heredocs: <<EOF lee líneas hasta EOF, expande variables, devuelve file descriptor
+
+1. Comandos simples: fork, execve, waitpid, buscar en PATH
+2. Builtins: cd (chdir), exit, pwd (getcwd), echo (write), export, unset
+3. Operadores lógicos: && ejecuta si exitcode=0, || si exitcode≠0, ; siempre, () subshells
+4. Pipes: | conecta stdout→stdin, usar pipe(), fork, dup2, cerrar FDs no usados
+5. Redirecciones: < > >> abrir archivos con open(), redirigir con dup2
+6. Señales: setpgid grupos de procesos, tcsetpgrp control terminal, SIGINT (^C), SIGTSTP (^Z), & background, fg/bg/jobs
+7. Interactividad: modo raw terminal, historial, autocompletado, edición de línea
+
+
+SI CAMBIO DE TAMAÑO LA VENTANA SE REIMPRIME READLINE PERO NO EL RESTO!!!!!!!1
+Tab until c
+Los leaks del historial son por culpa del autor de la función
