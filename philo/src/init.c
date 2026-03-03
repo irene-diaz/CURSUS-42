@@ -27,8 +27,8 @@ int	init_data(t_data *data, int argc, char **argv)
 	data->time_to_die = atol(argv[2]);
 	data->time_to_eat = atol(argv[3]);
 	data->time_to_sleep = atol(argv[4]);
-	if (data->nb_philo <= 0 || data->time_to_die < 0 || data->time_to_eat < 0
-		|| data->time_to_sleep < 0)
+	if (data->nb_philo <= 0 || data->time_to_die <= 0 || data->time_to_eat <= 0
+		|| data->time_to_sleep <= 0)
 		return (printf("Invalid arguments\n"), 1);
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->nb_philo);
 	if (!data->forks)
