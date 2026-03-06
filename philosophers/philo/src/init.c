@@ -6,7 +6,7 @@
 /*   By: idiaz-ca <idiaz-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 10:23:37 by idiaz-ca          #+#    #+#             */
-/*   Updated: 2026/03/03 20:03:48 by idiaz-ca         ###   ########.fr       */
+/*   Updated: 2026/03/06 16:33:40 by idiaz-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ int	init_data(t_data *data, int argc, char **argv)
 		data->must_eat_count = atoi(argv[5]);
 	else
 		data->must_eat_count = -1;
-	data->nb_philo = atoi(argv[1]);
-	data->time_to_die = atol(argv[2]);
-	data->time_to_eat = atol(argv[3]);
-	data->time_to_sleep = atol(argv[4]);
+	data->nb_philo = ft_atoi(argv[1]);
+	data->time_to_die = ft_atol(argv[2]);
+	data->time_to_eat = ft_atol(argv[3]);
+	data->time_to_sleep = ft_atol(argv[4]);
 	if (data->nb_philo <= 0 || data->time_to_die <= 0 || data->time_to_eat <= 0
 		|| data->time_to_sleep <= 0 || (argc == 6 && data->must_eat_count <= 0))
 		return (printf("Invalid arguments\n"), 1);

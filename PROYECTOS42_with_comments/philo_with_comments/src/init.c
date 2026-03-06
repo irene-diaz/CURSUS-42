@@ -22,9 +22,9 @@ int	init_data(t_data *data, int argc, char **argv)
 		data->must_eat_count = -1;
 	/*inicializamos los valores de la estructura de datos*/
 	data->nb_philo = atoi(argv[1]);
-	data->time_to_die = atol(argv[2]);
-	data->time_to_eat = atol(argv[3]);
-	data->time_to_sleep = atol(argv[4]);
+	data->time_to_die = ft_atol(argv[2]);
+	data->time_to_eat = ft_atol(argv[3]);
+	data->time_to_sleep = ft_atol(argv[4]);
 	/*comprobamos que los argumentos sean validos,
 		el nº de filosofos debe ser mayor a 0 y los tiempos deben ser mayores o iguales a 0*/
 	if (data->nb_philo <= 0 || data->time_to_die < 0 || data->time_to_eat < 0
