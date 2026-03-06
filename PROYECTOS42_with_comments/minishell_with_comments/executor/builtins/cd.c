@@ -6,36 +6,88 @@
 /*   By: idiaz-ca <idiaz-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 11:56:32 by oem               #+#    #+#             */
-/*   Updated: 2026/01/28 11:36:59 by idiaz-ca         ###   ########.fr       */
+/*   Updated: 2026/03/06 17:36:11 by idiaz-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 /* ==================== CD ==================== */
+
+/* Obtiene el directorio HOME o NULL si no está definido */
+static char	*get_home_or_null(t_cmd *cmd, int show_error)
+{
+	char	*home;
+	char	*user;
+
+	home = get_env_var(cmd, "HOME"); // Obtener el directorio HOME
+	/* Si no se encuentra el directorio HOME, se muestra un mensaje de error */
+	if (!home)
+	{
+		/* Si no se encuentra el directorio HOME,
+			se muestra un mensaje de error */
+		if (show_error)
+		{
+			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
+			if (cmd->exitcode)
+				*cmd->exitcode = 1;
+			return (NULL);
+		}
+		user = getenv("USER");
+		/* Si no se encuentra el directorio HOME,
+			se intenta construir uno a partir del nombre de usuario */
+		if (user)
+		{
+			home = ft_strjoin("/home/", user);
+		}
+	}
+	return (home);
+}
+
+/* Obtiene el directorio a cambiar (HOME o el especificado) */
+static char	*get_cd_dir(t_cmd *cmd)
+{
+	char	*home;
+
+	// Obtener el directorio a cambiar
+	if (!cmd->cmd[1] || cmd->cmd[1][0] == '\0')
+		return (get_home_or_null(cmd, 1));
+	// Si el directorio comienza con ~, se expande a HOME
+	if (cmd->cmd[1][0] == '~')
+	{
+		home = get_home_or_null(cmd, 0);
+		if (!home)
+			return (NULL);
+		if (cmd->cmd[1][1] == '\0')
+			return (home);
+		return (ft_strjoin_arena(cmd->arena, home, &cmd->cmd[1][1]));
+	}
+	return (cmd->cmd[1]);
+}
+
+/* Ejecuta el comando cd */
 void	exec_cd(t_cmd *cmd)
 {
-	int	ret;
+	char	*dir;
 
-	// Variable para almacenar el valor devuelto por chdir:
-	// chdir devuelve 0 si cambia el directorio con éxito, y -1 en caso de error
-	// Si no se proporciona un argumento (solo "cd"), intentamos ir al HOME
-	// getenv("HOME") puede devolver NULL si la variable no está definida
-	if (!cmd->cmd[1])
-		ret = chdir(getenv("HOME"));
-	else
-		// Si hay argumento, intentamos cambiar al directorio indicado
-		ret = chdir(cmd->cmd[1]);
-	// Si chdir devolvió un valor distinto de 0 hubo un error
-	if (ret != 0)
+	// Obtener el directorio a cambiar
+	dir = get_cd_dir(cmd);
+	if (!dir)
+		return ;
+	// Si el directorio es inválido, se muestra un mensaje de error
+	if (chdir(dir) != 0)
 	{
-		// perror imprime un mensaje de error en stderr con el prefijo dado
-		perror("minishell: cd");
-		// Si se pasó un puntero para el código de salida, lo ajustamos a 1 (error)
+		ft_putstr_fd("minishell: cd: ", 2);
+		ft_putstr_fd(cmd->cmd[1], 2);
+		ft_putstr_fd(": ", 2);
+		perror("");
 		if (cmd->exitcode)
 			*cmd->exitcode = 1;
 	}
-	else if (cmd->exitcode)
-		// Si chdir fue exitoso, fijamos el código de salida a 0
-		*cmd->exitcode = 0;
+	// Si el directorio es válido, se actualiza el directorio actual
+	else
+	{
+		if (cmd->exitcode)
+			*cmd->exitcode = 0;
+	}
 }

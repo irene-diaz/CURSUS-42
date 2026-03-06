@@ -17,11 +17,11 @@ int	init_data(t_data *data, int argc, char **argv)
 		lo dejamos en
 			-1 para indicar que los filósofos pueden comer indefinidamente*/
 	if (argc == 6)
-		data->must_eat_count = atoi(argv[5]);
+		data->must_eat_count = ft_atoi(argv[5]);
 	else
 		data->must_eat_count = -1;
 	/*inicializamos los valores de la estructura de datos*/
-	data->nb_philo = atoi(argv[1]);
+	data->nb_philo = ft_atoi(argv[1]);
 	data->time_to_die = ft_atol(argv[2]);
 	data->time_to_eat = ft_atol(argv[3]);
 	data->time_to_sleep = ft_atol(argv[4]);

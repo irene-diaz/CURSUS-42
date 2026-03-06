@@ -6,13 +6,13 @@
 /*   By: idiaz-ca <idiaz-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 19:32:15 by idiaz-ca          #+#    #+#             */
-/*   Updated: 2026/01/28 13:19:17 by idiaz-ca         ###   ########.fr       */
+/*   Updated: 2026/03/06 17:28:21 by idiaz-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-#include <signal.h>
 
+int			g_signal = 0; // Variable global para almacenar señales
 /*TEORIA
 SIGINT
 
@@ -56,6 +56,7 @@ static void	handle_sigint(int sig)
 {
 	(void)sig;
 	write(1, "\n", 1);
+	g_signal = 130;         // Captura la señal SIGINT
 	rl_on_new_line();       // preparar readline para una nueva línea
 	rl_replace_line("", 0); // vaciar la línea actual introducida por el usuario
 	rl_redisplay();         // volver a dibujar el prompt
