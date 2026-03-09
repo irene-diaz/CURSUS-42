@@ -6,13 +6,15 @@
 /*   By: idiaz-ca <idiaz-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 11:56:22 by oem               #+#    #+#             */
-/*   Updated: 2026/01/28 12:34:26 by idiaz-ca         ###   ########.fr       */
+/*   Updated: 2026/03/09 18:00:51 by idiaz-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 /* ==================== DISPATCHER ==================== */
+/* Esta función recibe un comando y determina si es un builtin, y si lo es,
+	lo ejecuta */
 int	exec_builtin(t_cmd *cmd)
 {
 	// Validar entrada: si no hay comando válido, no es un builtin

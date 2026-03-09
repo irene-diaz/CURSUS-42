@@ -19,6 +19,8 @@ SRCS = main.c \
        memory/arena_destroy.c \
        memory/arena_init.c \
 	   executor/execute.c \
+	   executor/execute_chain.c \
+	   executor/execute_redirections.c \
 	   executor/execute_utils.c \
 	   executor/builtins.c \
 	   executor/builtins/cd.c \

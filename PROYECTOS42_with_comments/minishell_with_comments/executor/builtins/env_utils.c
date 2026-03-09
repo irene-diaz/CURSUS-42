@@ -6,7 +6,7 @@
 /*   By: idiaz-ca <idiaz-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 17:34:30 by idiaz-ca          #+#    #+#             */
-/*   Updated: 2026/03/06 17:50:45 by idiaz-ca         ###   ########.fr       */
+/*   Updated: 2026/03/09 17:41:11 by idiaz-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	is_valid_identifier(char *s)
 	return (1);
 }
 
-/* Maneja identificadores inválidos */
+/* Maneja identificadores inválidos para export */
 int	handle_invalid_identifier(t_cmd *cmd, char *identifier)
 {
 	// Verifica si el identificador es válido
@@ -49,7 +49,7 @@ int	handle_invalid_identifier(t_cmd *cmd, char *identifier)
 	return (0);
 }
 
-/* Copia el entorno */
+/* Copia las variables de entorno */
 char	**copy_env(char **envp)
 {
 	int		i;

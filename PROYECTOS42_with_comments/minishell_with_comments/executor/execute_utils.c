@@ -6,12 +6,32 @@
 /*   By: idiaz-ca <idiaz-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 11:55:55 by oem               #+#    #+#             */
-/*   Updated: 2026/01/28 13:00:39 by idiaz-ca         ###   ########.fr       */
+/*   Updated: 2026/03/09 18:01:45 by idiaz-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+/* Ejecuta un comando en un proceso hijo */
+void	child_exec_cmd(t_cmd *cmd)
+{
+	char	*path;
+
+	if (exec_builtin(cmd))
+		exit(*cmd->exitcode);
+	if (!cmd->cmd || !cmd->cmd[0])
+		exit(0);
+	path = resolve_path(cmd->arena, cmd->cmd[0], *(cmd->env_ptr));
+	if (!path)
+	{
+		ft_putstr_fd(cmd->cmd[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
+		exit(127);
+	}
+	execve(path, cmd->cmd, *(cmd->env_ptr));
+	perror("execve");
+	exit(1);
+}
 // Obtener la variable de entorno PATH
 static char	*get_path_env(char **envp)
 {

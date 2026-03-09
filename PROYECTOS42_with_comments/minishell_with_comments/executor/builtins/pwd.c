@@ -6,13 +6,15 @@
 /*   By: idiaz-ca <idiaz-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 11:57:02 by oem               #+#    #+#             */
-/*   Updated: 2026/01/28 12:31:38 by idiaz-ca         ###   ########.fr       */
+/*   Updated: 2026/03/09 17:53:51 by idiaz-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 /* ==================== PWD ==================== */
+
+/* Ejecuta el comando pwd(imprime el directorio actual) */
 void	exec_pwd(t_cmd *cmd)
 {
 	char	cwd[1024];
@@ -29,11 +31,8 @@ void	exec_pwd(t_cmd *cmd)
 		if (cmd->exitcode)
 			*cmd->exitcode = 0;
 	}
-	else
-	{
-		// En caso de error (por ejemplo buffer insuficiente o fallo del sistema),
-		// no imprimimos el directorio y si hay puntero,devolvemos código de error 1
-		if (cmd->exitcode)
-			*cmd->exitcode = 1;
-	}
+	/* En caso de error (por ejemplo buffer insuficiente o fallo del sistema),
+	no imprimimos el directorio y si hay puntero,devolvemos código de error 1*/
+	else if (cmd->exitcode)
+		*cmd->exitcode = 1;
 }

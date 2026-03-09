@@ -6,13 +6,14 @@
 /*   By: idiaz-ca <idiaz-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 11:56:42 by oem               #+#    #+#             */
-/*   Updated: 2026/01/28 12:20:42 by idiaz-ca         ###   ########.fr       */
+/*   Updated: 2026/03/09 17:42:16 by idiaz-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 /* ==================== EXIT ==================== */
+/* Maneja la salida del shell */
 void	exec_exit(t_cmd *cmd)
 {
 	int	status;
