@@ -6,7 +6,7 @@
 /*   By: idiaz-ca <idiaz-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 21:13:17 by idiaz-ca          #+#    #+#             */
-/*   Updated: 2026/03/09 18:25:01 by idiaz-ca         ###   ########.fr       */
+/*   Updated: 2026/03/11 17:57:00 by idiaz-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,14 @@ static void	negate_exitcode(int *exitcode)
 /* Ejecutar grupos de comandos */
 static int	execute_groups(t_cmd *cmd)
 {
-	t_cmd		*group; // Puntero al grupo actual de comandos que se está ejecutando
-	t_operator	incoming_op; // Operador que determina la relación con el grupo anterior
-	t_operator	outgoing_op; // Operador que determina la relación con el siguiente grupo
-	int			exitcode; // Código de salida del grupo actual
+	t_cmd		*group;
+	t_operator	incoming_op;
+	t_operator	outgoing_op;
 
+	// Puntero al grupo actual de comandos que se está ejecutando
+	// Operador que determina la relación con el grupo anterior
+	// Operador que determina la relación con el siguiente grupo
+	int exitcode; // Código de salida del grupo actual
 	group = cmd;
 	incoming_op = NONE;
 	exitcode = 0;
@@ -71,13 +74,15 @@ static int	execute_groups(t_cmd *cmd)
 		// Verifica si se debe omitir el grupo actual según el operador entrante y el código de salida del grupo anterior
 		if (should_skip(incoming_op, exitcode))
 		{
-			// Si se debe omitir el grupo, se avanza al siguiente grupo sin ejecutarlo
+			/** Si se debe omitir el grupo,
+				se avanza al siguiente grupo sin ejecutarlo */
 			group = next_group(group, &outgoing_op);
 			// El operador entrante para el siguiente grupo será el operador de salida del grupo actual
 			incoming_op = outgoing_op;
 			continue ;
 		}
-		// Si no se debe omitir el grupo, se ejecuta y se obtiene su código de salida
+		/** Si no se debe omitir el grupo,
+			se ejecuta y se obtiene su código de salida */
 		exitcode = execute_cmd_list(group);
 		group = next_group(group, &outgoing_op);
 		incoming_op = outgoing_op;
@@ -85,6 +90,7 @@ static int	execute_groups(t_cmd *cmd)
 	return (exitcode);
 }
 
+/* Ejecuta una cadena de comandos */
 int	execute_chain(t_cmd *cmd)
 {
 	int	exitcode;
@@ -94,14 +100,19 @@ int	execute_chain(t_cmd *cmd)
 		return (-1);
 	exitcode = 0;
 	negate = 0;
+	// Negar el código de salida si el primer comando es "!"
 	if (cmd->cmd && cmd->cmd[0] && ft_strncmp(cmd->cmd[0], "!", 2) == 0)
 	{
 		negate = 1;
 		cmd->cmd = &cmd->cmd[1];
 	}
+	// Eliminar el operador "!" de la cadena de comandos
 	exitcode = execute_groups(cmd);
+	// Negar el código de salida si se indicó que se debía negar
 	if (negate)
 		negate_exitcode(&exitcode);
+	/* Si se proporcionó un puntero para el código de salida,
+		se actualiza con el resultado final */
 	if (cmd->exitcode)
 		*cmd->exitcode = exitcode;
 	return (exitcode);
