@@ -1,0 +1,34 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strmapi_arena.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abrecio- <abrecio-@student.42madrid.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/11 17:39:36 by abrecio-          #+#    #+#             */
+/*   Updated: 2026/03/11 17:39:36 by abrecio-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/libft_arena.h"
+
+char	*ft_strmapi_arena(t_arena *arena, char const *s,
+		char (*f)(unsigned int, char))
+{
+	char	*new_str;
+	size_t	i;
+
+	if (!s || !f)
+		return (NULL);
+	new_str = arena_alloc(arena, ft_strlen(s) + 1);
+	if (!new_str)
+		return (NULL);
+	i = 0;
+	while (s[i])
+	{
+		new_str[i] = f(i, s[i]);
+		i++;
+	}
+	new_str[i] = '\0';
+	return (new_str);
+}
