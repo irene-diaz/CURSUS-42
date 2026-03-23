@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <fcntl.h>
 
-int ft_popen(const char *file, char *const av[], char type)
+int ft_popen(const char *file, const char *av[], char type)
 {
     if (!file || !av || (type != 'r' && type != 'w'))
         return -1;
@@ -19,11 +19,13 @@ int ft_popen(const char *file, char *const av[], char type)
         return -1;
     }
 
+    // PROCESO HIJO
     if (pid == 0)
     {
         if (type == 'r')
         {
             close(fd[0]);
+            //lo redirijimos para que sea la salida estandar
             if (dup2(fd[1], STDOUT_FILENO) < 0)
                 exit(1);
             close(fd[1]);
@@ -40,6 +42,7 @@ int ft_popen(const char *file, char *const av[], char type)
         exit(1);
     }
 
+    // PROCESO PADRE
     if (type == 'r')
     {
         close(fd[1]);
