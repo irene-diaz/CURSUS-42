@@ -7,6 +7,7 @@ int main()
     PhoneBook phoneBook;      // Creamos el objeto PhoneBook
     std::string command;
 
+    //es lo mismo que while(1)= bucle infinito
     while (true)
     {
         std::cout << "Enter command (ADD, SEARCH, EXIT): ";
