@@ -1,10 +1,9 @@
 #include "Contact.hpp"
-#include <iomanip>
 
-// Constructor vacío
+// Empty constructor
 Contact::Contact() {}
 
-// Guardar datos
+// Save data
 void Contact::setContact(std::string fn, std::string ln,
                          std::string nn, std::string pn,
                          std::string ds)
@@ -16,8 +15,8 @@ void Contact::setContact(std::string fn, std::string ln,
     darkestSecret = ds;
 }
 
-/* Función auxiliar para formatear
-(si tiene mas de 10 caracteres, eliminamos los sobrantes y ponemos un . al final)*/
+/* Helper function to format strings
+(if it has more than 10 characters, truncate and add a '.' at the end) */
 static std::string format(std::string str)
 {
     if (str.length() > 10)
@@ -25,8 +24,8 @@ static std::string format(std::string str)
     return str;
 }
 
-// Mostrar en tabla(index=contacto)
-// setw(n)= el siguiente valor ocupará exactamente n caracteres de ancho
+// Display in table format (index=contact)
+// setw(n)= the next value will occupy exactly n characters in width
 void Contact::displayShort(int index)
 {
     std::cout << std::setw(10) << index << "|"
@@ -36,7 +35,7 @@ void Contact::displayShort(int index)
               << std::endl;
 }
 
-// Mostrar completo
+// Display full contact details
 void Contact::displayFull()
 {
     std::cout << "First name: " << firstName << std::endl;

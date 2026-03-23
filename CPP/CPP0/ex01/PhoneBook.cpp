@@ -1,15 +1,15 @@
 #include "PhoneBook.hpp"
 
-// Inicializa el estado del phoneBook
+// Initialize the state of the PhoneBook
 PhoneBook::PhoneBook()
 {
     index = 0;
     total = 0;
 }
 
-// funcion para añadir un contacto
-// getLine= lee strings con espacios
-// Cuando haya mas de 8 contactos, sobrescribimso el primero y asi sucesivamente
+// Function to add a contact
+// getLine = reads strings with spaces
+// When there are more than 8 contacts, overwrite the first one and so on
 void PhoneBook::addContact()
 {
     std::string fn, ln, nn, pn, ds;
@@ -43,7 +43,7 @@ void PhoneBook::addContact()
         total++;
 }
 
-// Busca el contacto con el indice x
+// Search for the contact with index x
 void PhoneBook::searchContact()
 {
     if (total == 0)
@@ -52,25 +52,36 @@ void PhoneBook::searchContact()
         return;
     }
 
-    // mostramos los contactos en formato tabla
+    std::cout << std::setw(10) << "index" << "|"
+              << std::setw(10) << "first name" << "|"
+              << std::setw(10) << "last name" << "|"
+              << std::setw(10) << "nickname"
+              << std::endl;
+
+    // Display contacts in table format
     for (int i = 0; i < total; i++)
         contacts[i].displayShort(i);
 
-    // Creamos una variable de tipo cadena y guardamos lo que escribamos
+    // Create a string variable and store the input
     std::string input;
     std::cout << "Index: ";
     std::getline(std::cin, input);
 
-    // Convertir string a entero(para indice real)
-    int i = std::stoi(input);
+    std::istringstream iss(input);
+    int i;
+    if (!(iss >> i))
+    {
+        std::cout << "Error: Input is not a valid number\n";
+        return;
+    }
 
-    // control de errores
+    // Error control
     if (i < 0 || i >= total)
     {
         std::cout << "Invalid index\n";
         return;
     }
 
-    //mostramos los contactos enteros
+    // Display full contact details
     contacts[i].displayFull();
 }

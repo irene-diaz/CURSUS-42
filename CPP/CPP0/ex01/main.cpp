@@ -4,10 +4,10 @@
 
 int main()
 {
-    PhoneBook phoneBook;      // Creamos el objeto PhoneBook
+    PhoneBook phoneBook; // Create the PhoneBook object
     std::string command;
 
-    //es lo mismo que while(1)= bucle infinito
+    // Equivalent to while(1): infinite loop
     while (true)
     {
         std::cout << "Enter command (ADD, SEARCH, EXIT): ";
