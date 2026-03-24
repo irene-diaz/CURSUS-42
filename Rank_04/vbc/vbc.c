@@ -1,88 +1,77 @@
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
-#include <ctype.h>
 
-char *s;
+char	*s;
 
-void unexpected(char c)
+void	unexpected(char c)
 {
 	if (c)
-		printf("Unexpected token'%c'\n", c);
+		printf("Unexpected token '%c'\n", c);
 	else
-		printf("Unexpected end of input");
+		printf("Unexpected end of input\n");
+	exit(1);
 }
 
-int ft_sum();
+int		sum(void);
 
-int ft_factor()
+int	factor(void)
 {
-	int n = 0;
+	int	n;
 
+	if (*s == '\0')
+		unexpected(0);
 	if (isdigit(*s))
 		return (*s++ - '0');
-	while (*s == '(')
+	if (*s == '(')
 	{
 		s++;
-		n = ft_sum();
+		n = sum();
+		if (*s != ')')
+			unexpected(*s);
 		s++;
+		return (n);
+	}
+	unexpected(*s);
+	return (0);
+}
+
+int	product(void)
+{
+	int	n;
+
+	n = factor();
+	while (*s == '*')
+	{
+		s++;
+		n *= factor();
 	}
 	return (n);
 }
 
-int ft_product()
+int	sum(void)
 {
-	int p = ft_factor();
-	while (*s == '*')
-	{
-		s++;
-		p *= ft_factor();
-	}
-	return (p);
-}
-int ft_sum()
-{
-	int sum = ft_product();
+	int	n;
+
+	n = product();
 	while (*s == '+')
 	{
 		s++;
-		sum += ft_product();
+		n += product();
 	}
-	return (sum);
+	return (n);
 }
 
-int check_list(char *str)
-{
-	int cp = 0;
-	int i = 0;
-	int last = 0;
-
-	while (str[i])
-	{
-		if (str[i] == '(')
-			cp++;
-		if (str[i] == ')')
-			cp--;
-		if (isdigit(str[i]) && isdigit(str[i + 1]))
-			return (unexpected(str[i + 1]), 1);
-		last = str[i++];
-	}
-	if (cp > 0)
-		return (unexpected('('), 1);
-	if (cp < 0)
-		return (unexpected(')'), 1);
-	if (last == '*' || last == '+')
-		return (unexpected(0), 1);
-	return (0);
-}
-
-int main(int argc, char *argv[])
+int	main(int argc, char **argv)
 {
 	int result;
-	if (argc != 2 || check_list(argv[1]))
-		return 1;
+
+	if (argc != 2)
+		return (1);
 	s = argv[1];
-	result = ft_sum();
+	result = sum();
+	if (*s != '\0')
+		unexpected(*s);
 	printf("%d\n", result);
-	return 0;
+	return (0);
 }
