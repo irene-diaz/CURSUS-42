@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+int g_error = 0;
 char *s;
 
 void unexpected(char c)
@@ -11,7 +12,7 @@ void unexpected(char c)
     else
         printf("Unexpected end of input\n");
 
-    exit(1);
+    g_error = 1;
 }
 
 int sum(void);
@@ -19,9 +20,12 @@ int sum(void);
 int factor(void)
 {
     int n;
+    
+    if(g_error)
+        return 0;
 
     if(*s == '\0')
-        unexpected(0);
+        return(unexpected(0), 0);
 
     if (isdigit(*s))
         return *s++ - '0';
@@ -32,7 +36,7 @@ int factor(void)
         n = sum();
 
         if(*s != ')')
-            unexpected(*s);
+            return(unexpected(*s), 0);
         
         s++;
         return n;
@@ -47,7 +51,7 @@ int product(void)
     int n;
     n=factor();
 
-    while(*s == '*')
+    while(*s == '*' && !g_error)
     {
         s++;
         n *= factor();
@@ -61,7 +65,7 @@ int sum(void)
     int n;
     n = product();
 
-    while(*s == '+')
+    while(*s == '+' && !g_error)
     {
         s++;
         n += product();
@@ -81,9 +85,11 @@ int main(int argc, char *argv[])
 
     result= sum();
 
-    if (*s != '\0')
+    if (!g_error && *s != '\0')
         unexpected(*s);
 
-    printf("%d\n", result);
-    return 0;
+    if (!g_error)
+        printf("%d\n", result);
+        
+    return g_error;
 }
