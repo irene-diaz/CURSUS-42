@@ -1,8 +1,7 @@
+#include <ctype.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <ctype.h>
 
-int g_error = 0;
 char *s;
 
 void unexpected(char c)
@@ -12,7 +11,7 @@ void unexpected(char c)
     else
         printf("Unexpected end of input\n");
 
-    g_error = 1;
+    exit(1);
 }
 
 int sum(void);
@@ -21,33 +20,34 @@ int factor(void)
 {
     int n;
 
-    if(g_error)
-        return 0;
-    
-    if (*s=='\0')
-        return (unexpected(0), 0);
+    if(*s == '\0')
+        unexpected(0);
 
-    if(isdigit(*s))
-        return(*s++ -'0');
+    if (isdigit(*s))
+        return *s++ - '0';
 
-    if(*s=='(')
+    if(*s == '(')
     {
         s++;
         n = sum();
+
         if(*s != ')')
-            return (unexpected(*s), 0);
+            unexpected(*s);
+        
         s++;
         return n;
     }
-    return (unexpected(*s), 0);
+
+    unexpected(*s);
+    return 0;
 }
 
 int product(void)
 {
     int n;
-    n = factor();
+    n=factor();
 
-    while(*s == '*' && !g_error)
+    while(*s == '*')
     {
         s++;
         n *= factor();
@@ -61,7 +61,7 @@ int sum(void)
     int n;
     n = product();
 
-    while(*s == '+' && !g_error)
+    while(*s == '+')
     {
         s++;
         n += product();
@@ -79,13 +79,11 @@ int main(int argc, char *argv[])
 
     s = argv[1];
 
-    result = sum();
+    result= sum();
 
-    if(*s != '\0' && !g_error)
+    if (*s != '\0')
         unexpected(*s);
 
-    if(!g_error)
-        printf("%d\n", result);
-
-    return g_error;
+    printf("%d\n", result);
+    return 0;
 }
