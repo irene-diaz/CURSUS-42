@@ -1,77 +1,95 @@
 #include <ctype.h>
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 
-char	*s;
+int g_error = 0;
+char *s;
 
-void	unexpected(char c)
+void unexpected(char c)
 {
-	if (c)
-		printf("Unexpected token '%c'\n", c);
-	else
-		printf("Unexpected end of input\n");
-	exit(1);
+    if(c)
+        printf("Unexpected token '%c'\n", c);
+    else
+        printf("Unexpected end of input\n");
+
+    g_error = 1;
 }
 
-int		sum(void);
+int sum(void);
 
-int	factor(void)
+int factor(void)
 {
-	int	n;
+    int n;
+    
+    if(g_error)
+        return 0;
 
-	if (*s == '\0')
-		unexpected(0);
-	if (isdigit(*s))
-		return (*s++ - '0');
-	if (*s == '(')
-	{
-		s++;
-		n = sum();
-		if (*s != ')')
-			unexpected(*s);
-		s++;
-		return (n);
-	}
-	unexpected(*s);
-	return (0);
+    if(*s == '\0')
+        return(unexpected(0), 0);
+
+    if (isdigit(*s))
+        return *s++ - '0';
+
+    if(*s == '(')
+    {
+        s++;
+        n = sum();
+
+        if(*s != ')')
+            return(unexpected(*s), 0);
+        
+        s++;
+        return n;
+    }
+
+    unexpected(*s);
+    return 0;
 }
 
-int	product(void)
+int product(void)
 {
-	int	n;
+    int n;
+    n = factor();
 
-	n = factor();
-	while (*s == '*')
-	{
-		s++;
-		n *= factor();
-	}
-	return (n);
+    while(*s == '*' && !g_error)
+    {
+        s++;
+        n *= factor();
+    }
+
+    return n;
 }
 
-int	sum(void)
+int sum(void)
 {
-	int	n;
+    int n;
+    n = product();
 
-	n = product();
-	while (*s == '+')
-	{
-		s++;
-		n += product();
-	}
-	return (n);
+    while(*s == '+' && !g_error)
+    {
+        s++;
+        n += product();
+    }
+
+    return n;
 }
 
-int	main(int argc, char **argv)
+int main(int argc, char *argv[])
 {
-	int result;
+    int result;
 
-	if (argc != 2)
-		return (1);
-	s = argv[1];
-	result = sum();
-	if (*s != '\0')
-		unexpected(*s);
-	printf("%d\n", result);
-	return (0);
+    if(argc != 2)
+        return 1;
+
+    s = argv[1];
+
+    result = sum();
+
+    if (!g_error && *s != '\0')
+        unexpected(*s);
+
+    if (!g_error)
+        printf("%d\n", result);
+        
+    return g_error;
 }
