@@ -4,48 +4,64 @@ int main()
 {
     Fixed a;
     Fixed const b(Fixed(5.05f) * Fixed(2));
+    Fixed c = 5;
 
-    /*PUEBAS OPERADORES*/
+    /* TESTING OPERATORS */
     //---------------------------------------------
-    // Operador >
+    // Operator >
+    std::cout << "Operator >: " << std::endl;
     std::cout << (a > b) << std::endl; //0
-    // Operador <
+    // Operator <
+    std::cout << "Operator <: " << std::endl;
     std::cout << (a < b) << std::endl; //1
-    // Operador >=
+    // Operator >=
+    std::cout << "Operator >=: " << std::endl;
     std::cout << (a >= b) << std::endl; //0
-    // Operador <=
+    // Operator <=
+    std::cout << "Operator <=: " << std::endl;
     std::cout << (a <= b) << std::endl; //1
-    // Operador ==
+    // Operator ==
+    std::cout << "Operator ==: " << std::endl;
     std::cout << (a == b) << std::endl; //0
-    // Operador !=
+    // Operator !=
+    std::cout << "Operator !=: " << std::endl;
     std::cout << (a != b) << std::endl; //1
     //----------------------------------------------
-    // Operador de suma
-    std::cout << (a + b) << std::endl; //10.1055
-    // Operador de resta
-    std::cout << (b - a) << std::endl; //10.0973
-    // Operador de multiplicación
-    std::cout << (a * b) << std::endl; //0.03125
-    // Operador de división
-    std::cout << (b / a) << std::endl; //259.2
+    // Addition operator
+    std::cout << "Operator +: " << std::endl;
+    std::cout << (c + b) << std::endl; //15.1016
+    // Subtraction operator
+    std::cout << "Operator -: " << std::endl;
+    std::cout << (b - c) << std::endl; //5.1016
+    // Multiplication operator
+    std::cout << "Operator *: " << std::endl;
+    std::cout << (c * b) << std::endl; //50.5078
+    // Division operator
+    std::cout << "Operator /: " << std::endl;
+    std::cout << (b / c) << std::endl; //2.01953
     //----------------------------------------------
-    // Operadores de incremento (pos y pre)
+    // Increment operators (post and pre)
+    std::cout << "Operator ++: " << std::endl;
     std::cout << a << std::endl; //0
     std::cout << ++a << std::endl; //0.00390625
     std::cout << a << std::endl; //0.00390625
     std::cout << a++ << std::endl; //0.00390625
     std::cout << a << std::endl; //0.0078125
-    // Operadores de decremento (pos y pre)
+    // Decrement operators (post and pre)
+    std::cout << "Operator --: " << std::endl;
     std::cout << a << std::endl; //0.0078125
     std::cout << --a << std::endl; //0.00390625
     std::cout << a << std::endl; //0.00390625
     std::cout << a-- << std::endl; //0.00390625
     std::cout << a << std::endl; //0
     //----------------------------------------------
-    // Operador de max
+    // Max operator
+    std::cout << a << std::endl; //0
     std::cout << b << std::endl; //10.1016
+    std::cout << "Operator max: " << std::endl;
     std::cout << Fixed::max(a, b) << std::endl; //10.1016
-    // Operador de min
+    // Min operator
+    std::cout << "Operator min: " << std::endl;
     std::cout << Fixed::min(a, b) << std::endl; //0
 
     return 0;
