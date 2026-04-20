@@ -26,7 +26,7 @@ int main()
     // Operator !=
     std::cout << "Operator !=: " << std::endl;
     std::cout << (a != b) << std::endl; //1
-    //----------------------------------------------
+    std::cout << "----------------------------------------------" << std::endl;
     // Addition operator
     std::cout << "Operator +: " << std::endl;
     std::cout << (c + b) << std::endl; //15.1016
@@ -39,7 +39,7 @@ int main()
     // Division operator
     std::cout << "Operator /: " << std::endl;
     std::cout << (b / c) << std::endl; //2.01953
-    //----------------------------------------------
+    std::cout << "----------------------------------------------" << std::endl;
     // Increment operators (post and pre)
     std::cout << "Operator ++: " << std::endl;
     std::cout << a << std::endl; //0
@@ -54,10 +54,10 @@ int main()
     std::cout << a << std::endl; //0.00390625
     std::cout << a-- << std::endl; //0.00390625
     std::cout << a << std::endl; //0
-    //----------------------------------------------
+    std::cout << "----------------------------------------------" << std::endl;
     // Max operator
-    std::cout << a << std::endl; //0
-    std::cout << b << std::endl; //10.1016
+    std::cout << "a:" << a << std::endl; //0
+    std::cout << "b:" << b << std::endl; //10.1016
     std::cout << "Operator max: " << std::endl;
     std::cout << Fixed::max(a, b) << std::endl; //10.1016
     // Min operator
