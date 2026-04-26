@@ -5,11 +5,6 @@ Cat::Cat() : Animal("Cat")
     std::cout << "Cat default constructor called" << std::endl;
 }
 
-Cat::Cat(const std::string &name) : Animal(name)
-{
-    std::cout << "Cat parameterized constructor called for " << _type << std::endl;
-}
-
 Cat::Cat(const Cat &other) : Animal(other)
 {
     std::cout << "Cat copy constructor called for " << _type << std::endl;

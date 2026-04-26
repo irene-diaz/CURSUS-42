@@ -2,16 +2,13 @@
 
 Cat::Cat() : Animal("Cat")
 {
+    brain = new Brain();
     std::cout << "Cat default constructor called" << std::endl;
-}
-
-Cat::Cat(const std::string &name) : Animal(name)
-{
-    std::cout << "Cat parameterized constructor called for " << _type << std::endl;
 }
 
 Cat::Cat(const Cat &other) : Animal(other)
 {
+    brain = new Brain(*other.brain);
     std::cout << "Cat copy constructor called for " << _type << std::endl;
 }
 
@@ -19,7 +16,10 @@ Cat &Cat::operator=(const Cat &other)
 {
     if (this != &other)
     {
-        Animal::operator=(other);
+        Animal::operator=(other); //copy the base class part first
+
+        delete brain; // delete the existing brain to avoid memory leak
+        brain = new Brain(*other.brain); // create a new brain by copying the other cat's brain(deep copy)
     }
     std::cout << "Cat copy assignment operator called for " << _type << std::endl;
     return *this;
@@ -27,6 +27,7 @@ Cat &Cat::operator=(const Cat &other)
 
 Cat::~Cat()
 {
+    delete brain;
     std::cout << "Cat destructor called for " << _type << std::endl;
 }
 

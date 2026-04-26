@@ -4,7 +4,8 @@ LDFLAGS = -fsanitize=address
 SRCS = main.cpp \
 		Animal.cpp \
 		Dog.cpp \
-		Cat.cpp
+		Cat.cpp \
+		Brain.cpp
 OBJS_DIR = obj
 OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.cpp=.o))
 NAME = animal

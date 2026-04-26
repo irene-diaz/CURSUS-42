@@ -5,11 +5,6 @@ Dog::Dog() : Animal("Dog")
     std::cout << "Dog default constructor called" << std::endl;
 }
 
-Dog::Dog(const std::string &name) : Animal(name)
-{
-    std::cout << "Dog parameterized constructor called for " << _type << std::endl;
-}
-
 Dog::Dog(const Dog &other) : Animal(other)
 {
     std::cout << "Dog copy constructor called for " << _type << std::endl;
