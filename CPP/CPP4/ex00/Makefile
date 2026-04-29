@@ -2,10 +2,12 @@ CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -fsanitize=address -g
 LDFLAGS = -fsanitize=address
 SRCS = main.cpp \
-	   ClapTrap.cpp
+		Animal.cpp \
+		Dog.cpp \
+		Cat.cpp
 OBJS_DIR = obj
 OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.cpp=.o))
-NAME = claptrap
+NAME = animal
 
 all: $(NAME)
 
