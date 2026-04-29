@@ -36,22 +36,6 @@ FlagTrap::~FlagTrap()
     std::cout << "FlagTrap destructor called for " << _name << std::endl;
 }
 
-void FlagTrap::attack(const std::string &target)
-{
-    if (_energyPoints > 0 && _hitPoints > 0)
-    {
-        std::cout << "FlagTrap " << _name
-                  << " attacks " << target
-                  << ", causing " << _attackDamage << " points of damage!"
-                  << std::endl;
-        _energyPoints--;
-    }
-    else
-    {
-        std::cout << "FlagTrap " << _name << " can't attack" << std::endl;
-    }
-}
-
 void FlagTrap::highFivesGuys()
 {
     std::cout << "FlagTrap " << _name << " requests a high five!" << std::endl;

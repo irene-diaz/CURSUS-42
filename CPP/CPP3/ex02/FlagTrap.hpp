@@ -12,7 +12,6 @@ public:
     FlagTrap &operator=(const FlagTrap &other);
     ~FlagTrap();
 
-    void attack(const std::string &target); // for FlagTrap, attack should cause 30 points of damage instead of 0
     void highFivesGuys();
 };
 
