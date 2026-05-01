@@ -1,7 +1,8 @@
 #include "Dog.hpp"
 
-Dog::Dog() : Animal("Dog")
+Dog::Dog()
 {
+    this->_type = "Dog";
     brain = new Brain();
     std::cout << "Dog default constructor called" << std::endl;
 }
@@ -18,8 +19,9 @@ Dog &Dog::operator=(const Dog &other)
     {
         Animal::operator=(other); //copy the base class part first
 
+        Brain* newBrain = new Brain(*other.brain); // create a new brain by copying the other dog's brain(deep copy)
         delete brain; // delete the existing brain to avoid memory leak
-        brain = new Brain(*other.brain); // create a new brain by copying the other cat's brain(deep copy)
+        brain = newBrain; // point to the new brain
     }
     std::cout << "Dog copy assignment operator called for " << _type << std::endl;
     return *this;
@@ -34,4 +36,9 @@ Dog::~Dog()
 void Dog::makeSound() const
 {
     std::cout << "Woof!" << std::endl;
+}
+
+Brain* Dog::getBrain() const
+{
+    return brain;
 }

@@ -1,23 +1,39 @@
 #include "Animal.hpp"
 #include "Dog.hpp"
 #include "Cat.hpp"
+#include "WrongAnimal.hpp"
+#include "WrongCat.hpp"
 
 int main()
 {
-    const Animal *meta = new Animal();
-    const Animal *dog = new Dog();
-    const Animal *cat = new Cat();
+    std::cout << "\n=== CORRECT ANIMALS ===\n";
 
-    std::cout << dog->getType() << " " << std::endl;
-    std::cout << cat->getType() << " " << std::endl;
+    const Animal* meta = new Animal();
+    const Animal* dog = new Dog();
+    const Animal* cat = new Cat();
 
-    cat->makeSound(); // will output the cat sound!
-    dog->makeSound();
-    meta->makeSound();
+    std::cout << dog->getType() << std::endl;
+    std::cout << cat->getType() << std::endl;
+
+    cat->makeSound(); // Meow ✔
+    dog->makeSound(); // Woof ✔
+    meta->makeSound(); // Animal sound ✔
 
     delete meta;
     delete dog;
     delete cat;
-    
+
+    std::cout << "\n=== WRONG ANIMALS ===\n";
+
+    const WrongAnimal* wrongMeta = new WrongAnimal();
+    const WrongAnimal* wrongCat = new WrongCat();
+
+    std::cout << wrongCat->getType() << std::endl;
+
+    wrongCat->makeSound(); // ❌ WrongAnimal sound
+
+    delete wrongMeta;
+    delete wrongCat;
+
     return 0;
 }

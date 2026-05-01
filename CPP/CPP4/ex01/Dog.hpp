@@ -15,6 +15,7 @@ public:
     ~Dog();
 
     void makeSound() const; // should print "Woof!" to the console
+    Brain* getBrain() const;
 };
 
 #endif

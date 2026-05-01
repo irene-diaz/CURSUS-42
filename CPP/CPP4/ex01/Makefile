@@ -3,8 +3,10 @@ CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -fsanitize=address -g
 LDFLAGS = -fsanitize=address
 SRCS = main.cpp \
 		Animal.cpp \
+		WrongAnimal.cpp \
 		Dog.cpp \
 		Cat.cpp \
+		WrongCat.cpp \
 		Brain.cpp
 OBJS_DIR = obj
 OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.cpp=.o))

@@ -15,6 +15,7 @@ public:
     ~Cat();
 
     void makeSound() const; // should print "Meow!" to the console
+    Brain* getBrain() const;
 };
 
 #endif
