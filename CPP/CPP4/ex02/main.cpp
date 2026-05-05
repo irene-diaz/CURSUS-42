@@ -1,41 +1,27 @@
 #include "Animal.hpp"
 #include "Dog.hpp"
 #include "Cat.hpp"
+#include "Brain.hpp"
 
 int main()
 {
-    std::cout << "\n=== ABSTRACT CLASS TEST ===\n";
-
-    // Animal a; ❌ NO COMPILA (Animal es abstracta)
-
     const Animal* dog = new Dog();
     const Animal* cat = new Cat();
+    // const Animal* animal = new Animal(); //dont fix because is an abstract class
 
-    std::cout << "\n=== MAKE SOUND TEST ===\n";
-    dog->makeSound();
-    cat->makeSound();
+    Dog a;
+    Dog b = a;
 
-    std::cout << "\n=== TYPE TEST ===\n";
-    std::cout << "Dog type: " << dog->getType() << std::endl;
-    std::cout << "Cat type: " << cat->getType() << std::endl;
+    a.makeSound();
+    b.makeSound();
 
-    std::cout << "\n=== POLYMORPHISM TEST ===\n";
-    Animal* animals[4];
+    a.getBrain()->setIdea(0, "Idea 1");
+    a.getBrain()->setIdea(1, "Idea 2");
+    a.getBrain()->getIdea(0);
+    a.getBrain()->getIdea(1);
 
-    for (int i = 0; i < 2; i++)
-        animals[i] = new Dog();
-    for (int i = 2; i < 4; i++)
-        animals[i] = new Cat();
-
-    for (int i = 0; i < 4; i++)
-        animals[i]->makeSound();
-
-    std::cout << "\n=== CLEANUP TEST ===\n";
-    for (int i = 0; i < 4; i++)
-        delete animals[i];
-
-    delete dog;
-    delete cat;
-
+    delete dog; //should not create a leak
+    delete cat; //should not create a leak
+    
     return 0;
 }
