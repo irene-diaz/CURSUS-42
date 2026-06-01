@@ -7,6 +7,8 @@ int main()
         Bureaucrat b("John", 50);
         std::cout << b << std::endl;
 
+        // std::cout << b.getGrade() << std::endl;
+        // std::cout << b.getName() << std::endl;
         b.incrementGrade();
         std::cout << b << std::endl;
 
