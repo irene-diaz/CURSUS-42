@@ -11,11 +11,11 @@ int main()
         std::cout << b << std::endl;
         std::cout << f << std::endl;
 
-        b.signForm(f);
-        std::cout << f << std::endl;
+        b.signForm(f); // This will throw an exception
 
-        Bureaucrat c("Doe", 150);
-        c.signForm(f); // This will throw an exception
+        std::cout << f << std::endl;
+        Bureaucrat c("Doe", 10);
+        c.signForm(f); 
     }
     catch (const std::exception &e)
     {
