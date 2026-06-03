@@ -1,6 +1,6 @@
 CXX = c++
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -fsanitize=address -g
-LDFLAGS = -fsanitize=address
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98 #-fsanitize=address -g
+#LDFLAGS = -fsanitize=address
 SRCS = main.cpp \
 		Bureaucrat.cpp \
 		AForm.cpp \
