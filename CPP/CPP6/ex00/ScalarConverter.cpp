@@ -25,7 +25,7 @@ void ScalarConverter::convert(const std::string &literal)
         return;
 
     double value;
-    // Handle char literals and numeric literals
+    // Handle literals that are not pseudo-literals and do not represent a char literal
     if (!getDoubleValue(literal, value))
     {
         std::cout << "char: impossible" << std::endl;

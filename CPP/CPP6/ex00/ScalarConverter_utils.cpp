@@ -23,7 +23,7 @@ bool ScalarConverter::isPseudoLiteral(const std::string &literal)
 // Handle pseudo-literals and display the appropriate output
 bool ScalarConverter::handlePseudoLiterals(const std::string &literal)
 {
-    // Check if the literal is a pseudo-literal
+    // Check if the literal is not a pseudo-literal
     if (!isPseudoLiteral(literal))
         return false;
 
@@ -58,11 +58,13 @@ bool ScalarConverter::getDoubleValue(const std::string &literal, double &value)
         return true;
     }
 
+    // If the literal is not a char literal, try to convert it to a double
     char *end = NULL;
     errno = 0;
     // Use strtod to convert the string to a double. This function will set errno if the conversion fails or if the value is out of range.
     value = std::strtod(literal.c_str(), &end);
 
+    // Check if errno is out of range
     if (errno == ERANGE)
         return false;
     return true;
