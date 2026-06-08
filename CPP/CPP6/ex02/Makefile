@@ -2,10 +2,10 @@ CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 #-fsanitize=address -g
 #LDFLAGS = -fsanitize=address
 SRCS = main.cpp \
-		Serializer.cpp
+		Base.cpp 
 OBJS_DIR = obj
 OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.cpp=.o))
-NAME = Serializer
+NAME = Base
 
 all: $(NAME)
 
