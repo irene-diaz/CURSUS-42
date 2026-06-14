@@ -129,14 +129,17 @@ bigint bigint::operator>>(const bigint &shift) const
     unsigned long n =
         std::strtoul(shift._value.c_str(), NULL, 10);
 
+    //si el numero de cifras que hay que quitar es mayor que la longitud del numero, simplemente devolvemos 0
     if (n >= result._value.size())
     {
         result._value = "0";
         return result;
     }
 
+    //eliminamos las cifras correspondientes por la derecha
     result._value.erase(result._value.size() - n);
 
+    //normalizamos por si quedan cosas raras
     result.normalize();
     return result;
 }
@@ -158,9 +161,11 @@ bigint &bigint::operator>>=(const bigint &shift)
 // operador de comparación menor que
 bool bigint::operator<(const bigint &other) const
 {
+    //distinto numero de cifras, si el nº de cifras del 1º nº es menor que el nº de cifras que el 2º nº
     if (_value.size() != other._value.size())
         return _value.size() < other._value.size();
 
+    //mismo numero de cifras
     return _value < other._value;
 }
 
@@ -194,9 +199,13 @@ bool bigint::operator!=(const bigint &other) const
     return !(*this == other);
 }
 
-// operador de inserción para imprimir el número
+// operador de inserción para imprimir el
+//std::ostream &os = flujo de salida
+//bigint &n = el número que queremos imprimir
 std::ostream &operator<<(std::ostream &os, const bigint &n)
 {
+    //devolvemos el numero
     os << n._value;
+    //encadenamos
     return os;
 }
