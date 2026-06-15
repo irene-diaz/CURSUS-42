@@ -33,7 +33,7 @@ public:
 private:
     std::string _value;
     void normalize();
-    friend std::ostream &operator<< (std::ostream &os, const bigint &n);
+    friend std::ostream &operator<<(std::ostream &os, const bigint &n);
 };
-std::ostream &operator<< (std::ostream &os, const bigint &n);
+std::ostream &operator<<(std::ostream &os, const bigint &n);
 #endif

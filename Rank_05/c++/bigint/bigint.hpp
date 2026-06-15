@@ -1,7 +1,6 @@
 #ifndef BIGINT_HPP
 #define BIGINT_HPP
 
-#include <iostream>
 #include <string>
 #include <cstdlib>
 #include <sstream>
