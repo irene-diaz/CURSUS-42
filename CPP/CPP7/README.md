@@ -10,3 +10,9 @@ Por eso los templates son una de las herramientas más potentes de C++, y toda l
 Le dices al compilador:
 
 "No sé qué tipo usaré, llámalo T, y ya me generarás la función correspondiente."
+
+¿Por qué haces sizeof(arr)/sizeof(arr[0])?
+
+y la respuesta es:
+
+Porque el tamaño total del array dividido por el tamaño de un elemento me da el número de elementos del array.
