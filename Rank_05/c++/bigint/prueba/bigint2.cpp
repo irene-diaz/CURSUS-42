@@ -1,20 +1,21 @@
 #include "bigint2.hpp"
 
-bigint::bigint() : _value("0")
+bigint ::bigint() : _value("0")
 {
 }
-bigint::bigint(unsigned int n)
+
+bigint ::bigint(unsigned int n)
 {
     std::stringstream ss;
     ss << n;
     _value = ss.str();
 }
 
-bigint::bigint(const bigint &other) : _value(other._value)
+bigint ::bigint(const bigint &other) : _value(other._value)
 {
 }
 
-void bigint::normalize()
+void bigint ::normalize()
 {
     size_t non_zero_pos = _value.find_first_not_of('0');
     if (non_zero_pos == std::string::npos)
@@ -23,14 +24,14 @@ void bigint::normalize()
         _value = _value.substr(non_zero_pos);
 }
 
-bigint &bigint ::operator=(const bigint &other)
+bigint &bigint::operator=(const bigint &other)
 {
     if (this != &other)
         _value = other._value;
     return *this;
 }
 
-bigint bigint ::operator+(const bigint &other) const
+bigint bigint::operator+(const bigint &other) const
 {
     int i = _value.size() - 1;
     int j = other._value.size() - 1;
@@ -41,6 +42,7 @@ bigint bigint ::operator+(const bigint &other) const
     while (i >= 0 || j >= 0 || carry)
     {
         int sum = carry;
+
         if (i >= 0)
             sum += _value[i--] - '0';
         if (j >= 0)
@@ -49,12 +51,13 @@ bigint bigint ::operator+(const bigint &other) const
         result.insert(result.begin(), (sum % 10) + '0');
         carry = sum / 10;
     }
+
     bigint tmp;
     tmp._value = result;
     return tmp;
 }
 
-bigint &bigint ::operator+=(const bigint &other)
+bigint &bigint::operator+=(const bigint &other)
 {
     *this = *this + other;
     return *this;
@@ -66,33 +69,32 @@ bigint &bigint ::operator++()
     return *this;
 }
 
-bigint bigint::operator++(int)
+bigint bigint ::operator++(int)
 {
     bigint tmp(*this);
     ++(*this);
     return tmp;
 }
 
-bigint bigint ::operator<<(const bigint &shift) const
+bigint bigint::operator<<(const bigint &shift) const
 {
     bigint result(*this);
-    unsigned long n = std::strtoul(shift._value.c_str(), NULL, 10);
-
+    unsigned long n = strtoul(shift._value.c_str(), NULL, 10);
     result._value.append(n, '0');
     return result;
 }
 
-bigint bigint ::operator>>(const bigint &shift) const
+bigint bigint::operator>>(const bigint &shift) const
 {
     bigint result(*this);
-    unsigned long n = std::strtoul(shift._value.c_str(), NULL, 10);
 
-    if (n >= result._value.size())
+    unsigned long n = strtoul(shift._value.c_str(), NULL, 10);
+
+    if (n > result._value.size())
     {
         result._value = "0";
         return result;
     }
-
     result._value.erase(result._value.size() - n);
     result.normalize();
     return result;
@@ -110,7 +112,7 @@ bigint &bigint ::operator>>=(const bigint &shift)
     return *this;
 }
 
-bool bigint ::operator<(const bigint &other) const
+bool bigint::operator<(const bigint &other) const
 {
     if (_value.size() != other._value.size())
         return (_value.size() < other._value.size());
@@ -118,27 +120,27 @@ bool bigint ::operator<(const bigint &other) const
     return (_value < other._value);
 }
 
-bool bigint ::operator>(const bigint &other) const
+bool bigint::operator>(const bigint &other) const
 {
-    return (other < *this);
+    return !(other < *this);
 }
 
-bool bigint ::operator<=(const bigint &other) const
+bool bigint::operator<=(const bigint &other) const
 {
     return (*this < other || *this == other);
 }
 
-bool bigint ::operator>=(const bigint &other) const
+bool bigint::operator>=(const bigint &other) const
 {
     return !(*this < other);
 }
 
-bool bigint ::operator==(const bigint &other) const
+bool bigint::operator==(const bigint &other) const
 {
     return (_value == other._value);
 }
 
-bool bigint ::operator!=(const bigint &other) const
+bool bigint::operator!=(const bigint &other) const
 {
     return !(*this == other);
 }

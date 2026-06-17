@@ -2,6 +2,7 @@
 #define BIGINT_HPP
 
 #include <string>
+#include <iostream>
 #include <sstream>
 #include <cstdlib>
 class bigint
