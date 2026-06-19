@@ -4,12 +4,14 @@
 #include <algorithm>
 #include <stdexcept>
 
-template<typename T, typename U>
-typename std::vector<T>::iterator easyfind(std::vector<T> &container, U value)
+template <typename T>
+typename T::iterator easyfind(T &container, int value)
 {
-    typename std::vector<T>::iterator it = std::find(container.begin(), container.end(), value);
+    typename T::iterator it = std::find(container.begin(), container.end(), value);
+
     if (it == container.end())
-        throw std::runtime_error("Value not found");
+        throw std::exception();
+
     return it;
 }
 
