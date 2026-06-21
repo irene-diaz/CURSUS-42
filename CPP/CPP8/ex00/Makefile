@@ -4,7 +4,7 @@ CXXFLAGS = -Wall -Wextra -Werror -std=c++98 #-fsanitize=address -g
 SRCS = main.cpp
 OBJS_DIR = obj
 OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.cpp=.o))
-NAME = iter
+NAME = easyfind
 
 all: $(NAME)
 

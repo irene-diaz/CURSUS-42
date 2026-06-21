@@ -9,6 +9,7 @@ typename T::iterator easyfind(T &container, int value)
 {
     typename T::iterator it = std::find(container.begin(), container.end(), value);
 
+    // if the value is not found, throw an exception
     if (it == container.end())
         throw std::exception();
 
