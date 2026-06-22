@@ -5,23 +5,31 @@
 #include <vector>
 
 template <typename T>
-class MutanStack : public std::stack<T>
+// MutantStack inherits from std::stack and provides iterator access to the underlying container.
+class MutantStack : public std::stack<T>
 {
 public:
-    MutanStack();
-    MutanStack(const MutanStack &other);
-    MutanStack &operator=(const MutanStack &other);
-    ~MutanStack();
+    MutantStack() {}
+    MutantStack(const MutantStack &other) : std::stack<T>(other) {}
+    MutantStack &operator=(const MutantStack &other)
+    {
+        std::stack<T>::operator=(other);
+        return *this;
+    }
+    ~MutantStack() {}
 
-    void push(const T &value);
-    void pop();
-    T &top();
-    const T &top() const;
-    size_t size() const;
-    bool empty() const;
+    // container_type is a typedef for the underlying container type used by std::stack (by default, std::deque).
+    typedef typename std::stack<T>::container_type::iterator iterator;
 
-private:
-    std::vector<T> _container;
+    iterator begin()
+    {
+        return this->c.begin();
+    }
+
+    iterator end()
+    {
+        return this->c.end();
+    }
 };
 
-#endif 
+#endif

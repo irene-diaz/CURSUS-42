@@ -147,3 +147,33 @@ std::cout << d[0] << std::endl; // 10
 ---
 
 Si quieres, puedo añadir más ejemplos o explicar complejidad (O-notation) para cada operación.
+
+1. ¿Qué es un std::stack?
+
+Imagina una pila de platos.
+
+Solo puedes:
+
+poner uno encima → push()
+quitar el de arriba → pop()
+mirar el de arriba → top()
+
+std::stack<int> s;
+
+s.push(10);
+s.push(20);
+s.push(30);
+
+std::cout << s.top(); // 30
+2. ¿Qué NO puedes hacer con un stack?
+
+No puedes recorrerlo:
+
+for (...)     // ❌
+
+No existe:
+
+s.begin();    // ❌
+s.end();      // ❌
+
+porque un stack no tiene iteradores.
