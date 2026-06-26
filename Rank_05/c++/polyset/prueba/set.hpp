@@ -12,7 +12,7 @@ private:
 
 public:
     set(searchable_bag &s_bag);
-    bool has(int n) const;
+    bool has(int) const;
     void insert(int);
     void insert(int *, int);
     void clear();
@@ -21,5 +21,4 @@ public:
     const searchable_bag &get_bag() const;
     ~set();
 };
-
 #endif
