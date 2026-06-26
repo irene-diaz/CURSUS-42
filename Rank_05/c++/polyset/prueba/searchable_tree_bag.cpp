@@ -5,8 +5,7 @@ searchable_tree_bag::searchable_tree_bag()
 }
 
 searchable_tree_bag::searchable_tree_bag(
-    const searchable_tree_bag &other)
-    : tree_bag(other)
+    const searchable_tree_bag &other) : tree_bag(other)
 {
 }
 
@@ -22,27 +21,20 @@ searchable_tree_bag::~searchable_tree_bag()
 {
 }
 
-bool searchable_tree_bag::search(node *root,
-                                 int n) const
+bool searchable_tree_bag ::search(node *root, int n) const
 {
-    // if root is null, return false
     if (!root)
         return false;
 
-    // if root value is equal to n, return true
     if (root->value == n)
         return true;
 
-    // if n is less than root value, search left subtree
-    if (n < root->value)
+    if (root->value < n)
         return search(root->l, n);
-
-    // if n is greater than root value, search right subtree
     return search(root->r, n);
 }
 
-bool searchable_tree_bag::has(int n) const
+bool searchable_tree_bag ::has(int n) const
 {
-    // call search function with tree root and n
     return search(tree, n);
 }

@@ -10,11 +10,13 @@ searchable_array_bag::searchable_array_bag(
 {
 }
 
-searchable_array_bag &
-searchable_array_bag::operator=(
+searchable_array_bag &searchable_array_bag ::operator=(
     const searchable_array_bag &other)
 {
-    array_bag::operator=(other);
+    if (this != &other)
+    {
+        array_bag::operator=(other);
+    }
     return *this;
 }
 
