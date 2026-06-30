@@ -5,7 +5,7 @@
 #include <ctime>
 #include <list>
 
-/*int main()
+int main()
 {
     Span sp = Span(5);
     sp.addNumber(6);
@@ -16,9 +16,9 @@
     std::cout << sp.shortestSpan() << std::endl;
     std::cout << sp.longestSpan() << std::endl;
     return 0;
-}*/
+}
 
-int main()
+/*int main()
 {
     std::cout << "===== SUBJECT TEST =====" << std::endl;
     {
@@ -79,21 +79,6 @@ int main()
 
         std::cout << "Shortest Span: " << sp.shortestSpan() << std::endl;
         std::cout << "Longest Span: " << sp.longestSpan() << std::endl;
-    }
-
-    std::cout << "\n===== TEST: MINIMUM SPAN (ERROR CASE) =====" << std::endl;
-    {
-        try
-        {
-            Span sp(1);
-            sp.addNumber(42);
-
-            std::cout << sp.shortestSpan() << std::endl;
-        }
-        catch (std::exception &e)
-        {
-            std::cout << "Error: " << e.what() << std::endl;
-        }
     }
 
     std::cout << "\n===== TEST: OVERFLOW =====" << std::endl;
@@ -158,12 +143,14 @@ int main()
     {
         Span sp(10000);
 
+        // generate random numbers(change numbers in each run)
         std::srand(std::time(NULL));
 
         std::vector<int> v;
         for (int i = 0; i < 10000; i++)
             v.push_back(std::rand());
 
+        // insert the numbers into the Span object using addRange
         sp.addRange(v.begin(), v.end());
 
         std::cout << "Shortest Span: " << sp.shortestSpan() << std::endl;
@@ -171,4 +158,4 @@ int main()
     }
 
     return 0;
-}
+}*/

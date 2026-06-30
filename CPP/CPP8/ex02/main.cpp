@@ -16,7 +16,10 @@ int main()
 
     MutantStack<int>::iterator it = mstack.begin();
     MutantStack<int>::iterator ite = mstack.end();
+    /*std::cout << *mstack.begin() << std::endl; // Output: 737
+    std::cout << *mstack.end() << std::endl;   // Output: 0*/
 
+    // Increment and decrement the iterator to test its functionality
     ++it;
     --it;
 
