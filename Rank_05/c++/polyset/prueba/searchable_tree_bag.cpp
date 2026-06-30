@@ -13,7 +13,7 @@ searchable_tree_bag &searchable_tree_bag::operator=(
     const searchable_tree_bag &other)
 {
     if (this != &other)
-        tree_bag::operator=(other);
+        tree_bag ::operator=(other);
     return *this;
 }
 
@@ -21,7 +21,7 @@ searchable_tree_bag::~searchable_tree_bag()
 {
 }
 
-bool searchable_tree_bag ::search(node *root, int n) const
+bool searchable_tree_bag::search(node *root, int n) const
 {
     if (!root)
         return false;
@@ -29,12 +29,12 @@ bool searchable_tree_bag ::search(node *root, int n) const
     if (root->value == n)
         return true;
 
-    if (root->value < n)
+    if (n < root->value)
         return search(root->l, n);
     return search(root->r, n);
 }
 
-bool searchable_tree_bag ::has(int n) const
+bool searchable_tree_bag::has(int n) const
 {
     return search(tree, n);
 }
