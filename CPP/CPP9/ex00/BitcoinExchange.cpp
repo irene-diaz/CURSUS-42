@@ -10,50 +10,55 @@ BitcoinExchange::~BitcoinExchange()
 
 void BitcoinExchange::parseData(const std::string &filename)
 {
-    std::ifstream file(filename);
-    std::string line;
+    std::ifstream file(filename.c_str());
 
     if (!file.is_open())
     {
-        std::cerr << "Error: Could not open file " << filename << std::endl;
+        std::cerr << "Error: could not open file." << std::endl;
         return;
     }
 
-    std::getline(file, line); // Skip header
+    // create a empty line string to store each line of the file
+    std::string line;
+    // read the first line of the file to skip the header
+    std::getline(file, line);
 
     while (std::getline(file, line))
     {
+        // separe the line into date and price using a stringstream
         std::stringstream ss(line);
+
         std::string date;
-        std::string price_str;
+        std::string priceString;
+
         std::getline(ss, date, ',');
-        std::getline(ss, price_str);
+        std::getline(ss, priceString);
 
-        try
-        {
-            double price = std::stod(price_str);
-            _data[date] = price;
-        }
-        catch (const std::exception &e)
-        {
-            std::cerr << "Error: Invalid price format in line: " << line << std::endl;
-        }
+        // convert the price string to a double using std::atof
+        double price = std::atof(priceString.c_str());
+
+        // store the date and price in the map
+        _data[date] = price;
     }
-
-    file.close();
 }
 
-void BitcoinExchange::printPrice(const std::string &date, double amount) const
+void BitcoinExchange::printPrice(const std::string &date, double value) const
 {
-    auto it = _data.find(date);
-    if (it != _data.end())
+    double exchangeRate = getExchangeRate(date);
+    if (exchangeRate == -1)
     {
-        double price = it->second;
-        double total = amount * price;
-        std::cout << date << " => " << amount << " = " << total << std::endl;
+        std::cerr << "Error: no exchange rate found for date " << date << std::endl;
+        return;
     }
-    else
-    {
-        std::cerr << "Error: Date not found in database." << std::endl;
-    }
+
+    double price = value * exchangeRate;
+    std::cout << date << " => " << value << " = " << price << std::endl;
+}
+
+void BitcoinExchange::printData() const
+{
+    std::map<std::string, double>::const_iterator it;
+
+    for (it = _data.begin(); it != _data.end(); ++it)
+        std::cout << it->first << " -> " << it->second << std::endl;
 }

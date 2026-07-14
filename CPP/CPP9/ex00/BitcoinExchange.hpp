@@ -5,6 +5,7 @@
 #include <fstream>
 #include <map>
 #include <sstream>
+#include <cstdlib>
 
 class BitcoinExchange
 {
@@ -14,8 +15,11 @@ private:
 public:
     BitcoinExchange();
     ~BitcoinExchange();
+
     void parseData(const std::string &filename);
-    void printPrice(const std::string &date, double amount) const;
+    void printData() const;
+    void printPrice(const std::string &date, double value) const;
+    double getExchangeRate(const std::string &date) const;
 };
 
 #endif
