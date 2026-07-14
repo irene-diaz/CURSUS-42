@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
 void	print_maze(int height, int width, char **maze)
 {
 	int	i;
@@ -86,18 +90,15 @@ int	main(int argc, char **argv)
 		return (1);
 
 	int width = atoi(argv[1]);
-	int height = atoi(argv[2]);
+	int heigth = atoi(argv[2]);
 	int N = atoi(argv[3]);
-
 	char **maze;
-
 	int i;
 	int j;
 
-	maze = malloc(height * sizeof(char *));
 	i = 0;
-
-	while (i < height)
+	maze = malloc(heigth * sizeof(char *));
+	while (i < heigth)
 	{
 		j = 0;
 		maze[i] = malloc(width * sizeof(char));
@@ -118,7 +119,7 @@ int	main(int argc, char **argv)
 			drawing = !drawing;
 		else if (cmd == 'w' && py > 0)
 			py--;
-		else if (cmd == 's' && py < height - 1)
+		else if (cmd == 's' && py < heigth - 1)
 			py++;
 		else if (cmd == 'a' && px > 0)
 			px--;
@@ -131,9 +132,9 @@ int	main(int argc, char **argv)
 	i = 0;
 	while (i < N)
 	{
-		char **next = next_gen(height, width, maze);
+		char **next = next_gen(heigth, width, maze);
 		j = 0;
-		while (j < height)
+		while (j < heigth)
 		{
 			free(maze[j]);
 			j++;
@@ -143,14 +144,14 @@ int	main(int argc, char **argv)
 		i++;
 	}
 
-	print_maze(height, width, maze);
+	print_maze(heigth, width, maze);
 	i = 0;
-	while (i < height)
+	while (i < heigth)
 	{
 		free(maze[i]);
 		i++;
 	}
-	free(maze);
 
+	free(maze);
 	return (0);
 }
