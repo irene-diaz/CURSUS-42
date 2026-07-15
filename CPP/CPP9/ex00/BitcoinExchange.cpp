@@ -42,6 +42,7 @@ void BitcoinExchange::parseData(const std::string &filename)
     }
 }
 
+// Function to print the price of Bitcoin for a given date and value
 void BitcoinExchange::printPrice(const std::string &date, double value) const
 {
     double exchangeRate = getExchangeRate(date);
@@ -51,8 +52,33 @@ void BitcoinExchange::printPrice(const std::string &date, double value) const
         return;
     }
 
-    double price = value * exchangeRate;
-    std::cout << date << " => " << value << " = " << price << std::endl;
+    double result = value * exchangeRate;
+    std::cout << date << " => " << value << " = " << result << std::endl;
+}
+
+// Function to get the exchange rate for a given date
+double BitcoinExchange::getExchangeRate(const std::string &date) const
+{
+    std::map<std::string, double>::const_iterator it = _data.lower_bound(date);
+
+    // Case 1: Exact date
+    if (it != _data.end() && it->first == date)
+        return it->second;
+
+    // Case 2: Date before the first one
+    if (it == _data.begin())
+        return -1;
+
+    // Case 3: Date after the last one
+    if (it == _data.end())
+    {
+        --it;
+        return it->second;
+    }
+
+    // Case 4: Between two dates
+    --it;
+    return it->second;
 }
 
 void BitcoinExchange::printData() const

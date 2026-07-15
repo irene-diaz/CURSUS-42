@@ -1,29 +1,38 @@
 #include "BitcoinExchange.hpp"
 
-/*int main(int argc, char **argv)
+int main(int argc, char **argv)
 {
     if (argc != 2)
     {
-        std::cerr << "Usage: " << argv[0] << " <data_file>" << std::endl;
+        std::cerr << "Usage: " << argv[0] << " <input_file>" << std::endl;
         return 1;
     }
 
-    BitcoinExchange btc;
-    btc.parseData(argv[1]);
-    btc.printData();
+    BitcoinExchange bitcoinExchange;
+    bitcoinExchange.parseData("data.csv");
 
-    return 0;
-}*/
+    std::ifstream inputFile(argv[1]);
+    if (!inputFile.is_open())
+    {
+        std::cerr << "Error: could not open file." << std::endl;
+        return 1;
+    }
 
-int main()
-{
-    BitcoinExchange btc;
-    btc.parseData("data.csv");
-    btc.printData();
+    std::string line;
 
-    /*std::string date = "2023-01-01";
-    double amount = 100.0;
-    btc.printPrice(date, amount);*/
+    // Saltar la cabecera
+    std::getline(inputFile, line);
 
-    return 0;
+    while (std::getline(inputFile, line))
+    {
+        std::stringstream ss(line);
+
+        std::string date;
+        double value;
+
+        if (std::getline(ss, date, '|') && ss >> value)
+        {
+            bitcoinExchange.printPrice(date, value);
+        }
+    }
 }
