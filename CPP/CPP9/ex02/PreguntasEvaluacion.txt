@@ -59,3 +59,12 @@ Jacobsthal no ordena.
 El que ordena sigue siendo tu algoritmo con lower_bound.
 
 Jacobsthal solo decide el orden en el que insertas los elementos para que el número total de comparaciones sea el mínimo posible.
+
+PREGUNTAS CONTENEDORES
+
+¿Por qué usas vector y deque?
+
+Utilizo vector y deque porque el objetivo del ejercicio es implementar el mismo algoritmo sobre dos contenedores distintos y comparar
+su rendimiento. vector almacena los datos de forma contigua y suele ser más eficiente al recorrerlos, mientras que deque organiza la 
+memoria en bloques y tiene características diferentes. Midiendo el tiempo de ambos puedo comprobar cómo influye el contenedor en la 
+ejecución del algoritmo
