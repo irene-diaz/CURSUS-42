@@ -1,0 +1,61 @@
+PREGUNTAS ALGORITMO
+
+¿Por qué has puesto i + 1 < _vector.size() y no i < _vector.size()?
+
+"Porque siempre trabajo con parejas. Si el vector tiene un número impar de elementos, el último no tiene pareja. Si solo comprobara i < size,
+ cuando i fuera el último índice intentaría acceder a _vector[i + 1], que estaría fuera del vector. Por eso el bucle solo procesa parejas completas y el último
+elemento se guarda aparte como straggler."
+
+¿Qué hace std::make_pair()?
+
+Cuando escribes:
+
+std::make_pair(7, 12)
+
+C++ crea un objeto de tipo
+
+std::pair<int, int>
+
+que internamente es algo parecido a esto:
+
+template <class T1, class T2>
+struct pair
+{
+    T1 first;
+    T2 second;
+};
+
+Es decir, un pair no tiene nombres como x e y. Siempre tiene dos miembros:
+
+first
+second
+
+Paso 5. ¿Quién llama a comparePairs?
+
+Aquí viene la parte importante.
+
+Tú nunca haces
+
+comparePairs(...)
+
+La llama std::sort.
+
+Cuando escribes
+
+std::sort(_pairs.begin(), _pairs.end(), comparePairs);
+
+es como si le dijeras
+
+"Ordena este vector.
+
+Pero en lugar de usar <
+
+usa ESTA función."
+
+¿Que hace el algoritmo Jacobsthal?
+
+Jacobsthal no ordena.
+
+El que ordena sigue siendo tu algoritmo con lower_bound.
+
+Jacobsthal solo decide el orden en el que insertas los elementos para que el número total de comparaciones sea el mínimo posible.

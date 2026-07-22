@@ -1,0 +1,4 @@
+¿Por que he usado stack y no cualquier otro contenedor?
+Elegí std::stack porque la evaluación de una expresión en notación polaca inversa sigue un comportamiento LIFO. Voy apilando los operandos y, 
+cuando encuentro un operador, saco los dos últimos valores, realizo la operación y vuelvo a insertar el resultado. std::stack ofrece exactamente 
+las operaciones que necesita este algoritmo (push, pop y top) con complejidad O(1).

@@ -1,0 +1,33 @@
+
+./PmergeMe 5
+./PmergeMe 2 1
+./PmergeMe 3 2 1
+./PmergeMe 1 2 3 4 5 6 7 8 9
+
+100 números aleatorios distintos:
+
+./PmergeMe $(shuf -i 1-1000 -n 100)
+
+Duplicados:
+
+./PmergeMe 1 2 3 2
+
+Debe dar error.
+
+Número negativo:
+
+./PmergeMe -5
+
+Debe dar error.
+
+Fuera de rango:
+
+./PmergeMe 2147483648
+
+Debe dar error.
+
+Cadena no válida:
+
+./PmergeMe abc
+
+Debe dar error.

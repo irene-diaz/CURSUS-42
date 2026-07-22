@@ -1,0 +1,3 @@
+¿Por que he usado el contenedor map, en vez de cualquier otro?
+He usado std::map<std::string, double> porque necesito asociar una fecha con un valor de cambio. map almacena pares clave-valor, 
+donde la clave es única, y además mantiene las claves ordenadas automáticamente.
