@@ -1,0 +1,68 @@
+services:
+  mariadb:
+    build:
+      context: ./requirements/mariadb
+    image: mariadb
+    container_name: mariadb
+    restart: on-failure
+    env_file:
+      - .env
+    secrets:
+      - db_root_password
+      - db_password
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    networks:
+      - inception
+
+  wordpress:
+    build:
+      context: ./requirements/wordpress
+      dockerfile: Dockerfile
+    container_name: wordpress
+    image: wordpress
+    restart: on-failure
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+    secrets:
+      - db_password
+    volumes:
+      - wordpress_data:/var/www/html
+    networks:
+      - inception
+
+  nginx:
+    build:
+      context: ./requirements/nginx
+      dockerfile: Dockerfile
+    image: nginx
+    container_name: nginx
+    restart: on-failure
+    ports:
+      - "443:443"
+    volumes:
+      - wordpress_data:/var/www/html:ro
+    networks:
+      - inception
+
+volumes:
+  mariadb_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/idiaz-ca/data/database
+
+  wordpress_data:
+    name: srcs_wordpress_data
+
+networks:
+  inception:
+
+
+secrets:
+  db_root_password:
+    file: ../secrets/db_root_password.txt
+  db_password:
+    file: ../secrets/db_password.txt
