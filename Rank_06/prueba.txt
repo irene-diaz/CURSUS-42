@@ -1,0 +1,41 @@
+PRUEBA
+
+Con tres terminales:
+
+Terminal 1 — servidor
+
+./mini_serv 8080
+
+Terminal 2 — cliente 0
+
+nc 127.0.0.1 8080
+
+Terminal 3 — cliente 1
+
+nc 127.0.0.1 8080
+
+Y comprobar:
+
+client 0 conecta
+        ↓
+client 1 conecta
+        ↓
+client 0 recibe:
+server: client 1 just arrived
+
+client 0 escribe:
+hola
+
+client 1 recibe:
+client 0: hola
+
+client 1 escribe:
+adios
+
+client 0 recibe:
+client 1: adios
+
+client 1 se desconecta
+
+client 0 recibe:
+server: client 1 just left
