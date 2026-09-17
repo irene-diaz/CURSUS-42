@@ -17,6 +17,12 @@ typedef struct s_client
 	struct s_client	*next;
 }					t_client;
 
+void	fatal(void)
+{
+	write(2, "Fatal error\n", 12);
+	exit(1);
+}
+
 /* GIVEN */
 int	extract_message(char **buf, char **msg)
 {
@@ -33,7 +39,7 @@ int	extract_message(char **buf, char **msg)
 		{
 			newbuf = calloc(1, sizeof(*newbuf) * (strlen(*buf + i + 1) + 1));
 			if (newbuf == 0)
-				return (-1);
+				fatal();
 			strcpy(newbuf, *buf + i + 1);
 			*msg = *buf;
 			(*msg)[i + 1] = 0;
@@ -57,19 +63,13 @@ char	*str_join(char *buf, char *add)
 		len = strlen(buf);
 	newbuf = malloc(sizeof(*newbuf) * (len + strlen(add) + 1));
 	if (newbuf == 0)
-		return (0);
+		fatal();
 	newbuf[0] = 0;
 	if (buf != 0)
 		strcat(newbuf, buf);
 	free(buf);
 	strcat(newbuf, add);
 	return (newbuf);
-}
-
-void	fatal(void)
-{
-	write(2, "Fatal error\n", 12);
-	exit(1);
 }
 
 void	broadcast(t_client *clients, int except_fd, char *msg, int len)
@@ -146,6 +146,20 @@ void	remove_client(t_client **clients, t_client *client)
 		tmp = tmp->next;
 	}
 }
+void	clean_clients(t_client **clients)
+{
+	t_client	*tmp;
+
+	while (*clients)
+	{
+		tmp = (*clients)->next;
+		close((*clients)->fd);
+		free((*clients)->in);
+		free((*clients)->out);
+		free(*clients);
+		*clients = tmp;
+	}
+}
 
 int	main(int argc, char **argv)
 {
@@ -204,7 +218,11 @@ int	main(int argc, char **argv)
 
 		ret = select(max_fd + 1, &readfds, &writefds, NULL, NULL);
 		if (ret < 0)
+		{
+			clean_clients(&clients);
+			close(server_fd);
 			fatal();
+		}
 
 		if (FD_ISSET(server_fd, &readfds))
 		{

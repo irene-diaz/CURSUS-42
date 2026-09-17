@@ -9,15 +9,20 @@
 
 typedef struct s_client
 {
-	int				fd;
-	int				id;
-	char			*in;
-	char			*out;
-	int				out_len;
-	struct s_client	*next;
-}					t_client;
+	int	fd;
+	int	id;
+	char *in;
+	char *out;
+	int out_len;
+	struct s_client *next;
+} t_client;
 
-/* GIVEN */
+void fatal(void)
+{
+	write(2, "Fatal error\n", 12);
+	exit(1);
+}
+
 int	extract_message(char **buf, char **msg)
 {
 	char	*newbuf;
@@ -33,7 +38,7 @@ int	extract_message(char **buf, char **msg)
 		{
 			newbuf = calloc(1, sizeof(*newbuf) * (strlen(*buf + i + 1) + 1));
 			if (newbuf == 0)
-				return (-1);
+				fatal();
 			strcpy(newbuf, *buf + i + 1);
 			*msg = *buf;
 			(*msg)[i + 1] = 0;
@@ -45,7 +50,6 @@ int	extract_message(char **buf, char **msg)
 	return (0);
 }
 
-/* GIVEN */
 char	*str_join(char *buf, char *add)
 {
 	char	*newbuf;
@@ -57,7 +61,7 @@ char	*str_join(char *buf, char *add)
 		len = strlen(buf);
 	newbuf = malloc(sizeof(*newbuf) * (len + strlen(add) + 1));
 	if (newbuf == 0)
-		return (0);
+		fatal();
 	newbuf[0] = 0;
 	if (buf != 0)
 		strcat(newbuf, buf);
@@ -66,94 +70,106 @@ char	*str_join(char *buf, char *add)
 	return (newbuf);
 }
 
-void	fatal(void)
+void broadcast(t_client *clients, int except_fd, char *msg, int len)
 {
-	write(2, "Fatal error\n", 12);
-	exit(1);
-}
+	t_client *tmp;
+	char *newbuf;
+	int i;
 
-void	broadcast(t_client *clients, int except_fd, char *data, int len)
-{
-	t_client	*tmp;
-	char		*newbuf;
-	int			i;
-
-	tmp = clients;
-	while (tmp)
+	tmp=clients;
+	while(tmp)
 	{
-		if (tmp->fd != except_fd)
+		i=0;
+		if(tmp->fd != except_fd)
 		{
-			i = 0;
-			newbuf = realloc(tmp->out, tmp->out_len + len + 1);
-			if (!newbuf)
+			newbuf= realloc(tmp->out, tmp->out_len + len +1);
+			if(!newbuf)
 				fatal();
-			while (i < len)
+			while(i<len)
 			{
-				newbuf[tmp->out_len + i] = data[i];
+				newbuf[tmp->out_len+i]=msg[i];
 				i++;
 			}
-			tmp->out_len += len;
-			newbuf[tmp->out_len] = '\0';
-			tmp->out = newbuf;
+
+			tmp->out_len+=len;
+			newbuf[tmp->out_len]='\0';
+			tmp->out= newbuf;
 		}
-		tmp = tmp->next;
+		tmp=tmp->next;
 	}
 }
 
-void	send_pending(t_client *client)
+void send_pending(t_client *client)
 {
-	int	ret;
-	int	i;
+	int ret;
+	int i;
 
-	if (client->out_len == 0)
-		return ;
-	ret = send(client->fd, client->out, client->out_len, 0);
-	if (ret > 0)
+	if(client->out_len==0)
+		return;
+	ret=send(client->fd, client->out, client->out_len, 0);
+	if(ret>0)
 	{
-		i = 0;
-		while (i < client->out_len - ret)
+		i=0;
+		while(i<client->out_len-ret)
 		{
-			client->out[i] = client->out[ret + i];
+			client->out[i]=client->out[ret+i];
 			i++;
 		}
-		client->out_len -= ret;
-		client->out[client->out_len] = '\0';
+
+		client->out_len-=ret;
+		client->out[client->out_len]='\0';
 	}
 }
 
-void	remove_client(t_client **clients, t_client *client)
+void remove_client(t_client **clients, t_client *client)
 {
-	t_client	*tmp;
-	t_client	*prev;
+	t_client *tmp;
+	t_client *prev;
 
-	tmp = clients;
-	prev = NULL;
-	while (tmp)
+	tmp=*clients;
+	prev=NULL;
+
+	while(tmp)
 	{
-		if (tmp == client)
+		if(tmp==client)
 		{
-			if (prev)
-				prev->next = tmp->next;
+			if(prev)
+				prev->next=tmp->next;
 			else
-				*clients = tmp->next;
+				*clients=tmp->next;
 			close(tmp->fd);
 			free(tmp->in);
 			free(tmp->out);
 			free(tmp);
-			return ;
+			return;
 		}
-		prev = tmp;
-		tmp = tmp->next;
+		prev=tmp;
+		tmp=tmp->next;
 	}
 }
 
-int	main(int argc, char **argv)
+void clean_clients(t_client **clients)
+{
+	t_client *tmp;
+
+	while(*clients)
+	{
+		tmp=(*clients)->next;
+		close((*clients)->fd);
+		free((*clients)->in);
+		free((*clients)->out);
+		free(*clients);
+		*clients=tmp;
+	}
+}
+
+int main(int argc, char **argv)
 {
 	int server_fd;
 	int client_fd;
 	int max_fd;
-	int next_id;
 	int ret;
+	int next_id;
 	char buf[60000];
 	char msg[70000];
 	char *newline;
@@ -161,76 +177,116 @@ int	main(int argc, char **argv)
 	t_client *new_client;
 	t_client *tmp;
 	t_client *next;
-	fd_set readfds;
 	fd_set writefds;
+	fd_set readfds;
 	struct sockaddr_in addr;
 
-	if (argc != 2)
+	if(argc!=2)
 	{
 		write(2, "Wrong number of arguments\n", 26);
-		return (1);
+		return 1;
 	}
 	// socket create and verification
 	server_fd = socket(AF_INET, SOCK_STREAM, 0);
-	if (server_fd < 0)
+	if (server_fd <0)
 		fatal();
-
+	
 	// assign IP, PORT
 	addr.sin_family = AF_INET;
 	addr.sin_addr.s_addr = htonl(2130706433); // 127.0.0.1
 	addr.sin_port = htons(atoi(argv[1]));
 
 	// Binding newly created socket to given IP and verification
-	if ((bind(server_fd, (const struct sockaddr *)&addr, sizeof(addr))) < 0)
+	if ((bind(server_fd, (const struct sockaddr *)&addr,
+				sizeof(addr))) < 0)
 		fatal();
+
 	if (listen(server_fd, 128) < 0)
 		fatal();
 
-	next_id = 0;
-	clients = NULL;
+	next_id=0;
+	clients=NULL;
 
-	while (1)
+	while(1)
 	{
 		FD_ZERO(&readfds);
 		FD_ZERO(&writefds);
 		FD_SET(server_fd, &readfds);
 
-		tmp = clients;
-		max_fd = server_fd;
-		while (tmp)
+		tmp=clients;
+		max_fd=server_fd;
+		while(tmp)
 		{
 			FD_SET(tmp->fd, &readfds);
-			if (tmp->out_len > 0)
+
+			if(tmp->out_len>0)
 				FD_SET(tmp->fd, &writefds);
-			if (tmp->fd > max_fd)
-				max_fd = tmp->fd;
-			tmp = tmp->next;
+
+			if(tmp->fd > max_fd)
+				max_fd=tmp->fd;
+			tmp=tmp->next;
 		}
 
-		ret = select(max_fd + 1, &readfds, &writefds, NULL, NULL);
-		if (ret < 0)
-			fatal();
-
-		if (FD_ISSET(server_fd, &readfds))
+		ret = select(max_fd+1, &readfds, &writefds, NULL, NULL);
+		if(ret<0)
 		{
-			client_fd = accept(server_fd, NULL, NULL);
-			if (client_fd < 0)
+			close(server_fd);
+			fatal();
+		}
+
+		if(FD_ISSET(server_fd, &readfds))
+		{
+			client_fd= accept(server_fd, NULL, NULL);
+			if(client_fd<0)
+				fatal();
+			
+			new_client=malloc(sizeof(t_client));
+			if(!new_client)
 				fatal();
 
-			new_client = malloc(sizeof(t_client));
-			if (!new_client)
-				fatal();
-
-			new_client->fd = client_fd;
-			new_client->id = next_id++;
-			new_client->in = NULL;
-			new_client->out = NULL;
-			new_client->out_len = 0;
-			new_client->next = clients;
-			clients = new_client;
+			new_client->fd= client_fd;
+			new_client->id= next_id++;
+			new_client->in=NULL;
+			new_client->out=NULL;
+			new_client->out_len=0;
+			new_client->next=clients;
+			clients= new_client;
 
 			sprintf(msg, "server: client %d just arrived\n", new_client->id);
 			broadcast(clients, new_client->fd, msg, strlen(msg));
 		}
+
+		tmp=clients;
+
+		while(tmp)
+		{
+			next=tmp->next;
+			if(FD_ISSET(tmp->fd, &writefds))
+				send_pending(tmp);
+
+			if(FD_ISSET(tmp->fd, &readfds))
+			{
+				ret=recv(tmp->fd, buf, sizeof(buf)-1, 0);
+				if(ret<=0)
+				{
+					sprintf(msg, "server: client %d just left\n", tmp->id);
+					broadcast(clients, tmp->fd, msg, strlen(msg));
+					remove_client(&clients, tmp);
+				}
+				else{
+					buf[ret]='\0';
+					tmp->in=str_join(tmp->in, buf);
+
+					while(extract_message(&tmp->in, &newline)==1)
+					{
+						sprintf(msg, "client %d: %s", tmp->id, newline);
+						broadcast(clients, tmp->fd, msg, strlen(msg));
+						free(newline);
+					}
+				}
+			}
+			tmp=next;
+		}
+
 	}
 }
