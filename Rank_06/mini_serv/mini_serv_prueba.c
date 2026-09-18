@@ -1,16 +1,16 @@
-#include <arpa/inet.h>
 #include <netinet/in.h>
+#include <arpa/inet.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/select.h>
 #include <sys/socket.h>
+#include <sys/select.h>
 #include <unistd.h>
 
 typedef struct s_client
 {
-	int	fd;
-	int	id;
+	int fd;
+	int id;
 	char *in;
 	char *out;
 	int out_len;
@@ -79,12 +79,13 @@ void broadcast(t_client *clients, int except_fd, char *msg, int len)
 	tmp=clients;
 	while(tmp)
 	{
-		i=0;
 		if(tmp->fd != except_fd)
 		{
-			newbuf= realloc(tmp->out, tmp->out_len + len +1);
+			newbuf=realloc(tmp->out, tmp->out_len + len+1);
 			if(!newbuf)
 				fatal();
+
+			i=0;
 			while(i<len)
 			{
 				newbuf[tmp->out_len+i]=msg[i];
@@ -93,7 +94,7 @@ void broadcast(t_client *clients, int except_fd, char *msg, int len)
 
 			tmp->out_len+=len;
 			newbuf[tmp->out_len]='\0';
-			tmp->out= newbuf;
+			tmp->out=newbuf;
 		}
 		tmp=tmp->next;
 	}
@@ -107,12 +108,12 @@ void send_pending(t_client *client)
 	if(client->out_len==0)
 		return;
 	ret=send(client->fd, client->out, client->out_len, 0);
-	if(ret>0)
+	if(ret > 0)
 	{
 		i=0;
 		while(i<client->out_len-ret)
 		{
-			client->out[i]=client->out[ret+i];
+			client->out[i]=client->out[ret +i];
 			i++;
 		}
 
@@ -125,7 +126,6 @@ void remove_client(t_client **clients, t_client *client)
 {
 	t_client *tmp;
 	t_client *prev;
-
 	tmp=*clients;
 	prev=NULL;
 
@@ -137,6 +137,7 @@ void remove_client(t_client **clients, t_client *client)
 				prev->next=tmp->next;
 			else
 				*clients=tmp->next;
+
 			close(tmp->fd);
 			free(tmp->in);
 			free(tmp->out);
@@ -148,7 +149,7 @@ void remove_client(t_client **clients, t_client *client)
 	}
 }
 
-void clean_clients(t_client **clients)
+void clear_clients(t_client **clients)
 {
 	t_client *tmp;
 
@@ -158,7 +159,7 @@ void clean_clients(t_client **clients)
 		close((*clients)->fd);
 		free((*clients)->in);
 		free((*clients)->out);
-		free(*clients);
+		free((*clients));
 		*clients=tmp;
 	}
 }
@@ -170,9 +171,9 @@ int main(int argc, char **argv)
 	int max_fd;
 	int ret;
 	int next_id;
+	char *newline;
 	char buf[60000];
 	char msg[70000];
-	char *newline;
 	t_client *clients;
 	t_client *new_client;
 	t_client *tmp;
@@ -184,13 +185,13 @@ int main(int argc, char **argv)
 	if(argc!=2)
 	{
 		write(2, "Wrong number of arguments\n", 26);
-		return 1;
+		return(1);
 	}
 	// socket create and verification
 	server_fd = socket(AF_INET, SOCK_STREAM, 0);
-	if (server_fd <0)
+	if (server_fd<0)
 		fatal();
-	
+
 	// assign IP, PORT
 	addr.sin_family = AF_INET;
 	addr.sin_addr.s_addr = htonl(2130706433); // 127.0.0.1
@@ -200,7 +201,6 @@ int main(int argc, char **argv)
 	if ((bind(server_fd, (const struct sockaddr *)&addr,
 				sizeof(addr))) < 0)
 		fatal();
-
 	if (listen(server_fd, 128) < 0)
 		fatal();
 
@@ -219,61 +219,66 @@ int main(int argc, char **argv)
 		{
 			FD_SET(tmp->fd, &readfds);
 
-			if(tmp->out_len>0)
+			if(tmp->out_len >0)
 				FD_SET(tmp->fd, &writefds);
 
 			if(tmp->fd > max_fd)
 				max_fd=tmp->fd;
+
 			tmp=tmp->next;
 		}
 
 		ret = select(max_fd+1, &readfds, &writefds, NULL, NULL);
-		if(ret<0)
+		if(ret < 0)
 		{
+			clear_clients(&clients);
 			close(server_fd);
 			fatal();
 		}
 
+		//new_client
 		if(FD_ISSET(server_fd, &readfds))
 		{
-			client_fd= accept(server_fd, NULL, NULL);
+			client_fd=accept(server_fd, NULL, NULL);
 			if(client_fd<0)
 				fatal();
-			
+
 			new_client=malloc(sizeof(t_client));
 			if(!new_client)
 				fatal();
 
-			new_client->fd= client_fd;
-			new_client->id= next_id++;
+			new_client->fd=client_fd;
+			new_client->id=next_id++;
 			new_client->in=NULL;
 			new_client->out=NULL;
 			new_client->out_len=0;
 			new_client->next=clients;
-			clients= new_client;
+			clients=new_client;
 
 			sprintf(msg, "server: client %d just arrived\n", new_client->id);
 			broadcast(clients, new_client->fd, msg, strlen(msg));
 		}
 
+		//existing clients
 		tmp=clients;
-
 		while(tmp)
 		{
 			next=tmp->next;
+
 			if(FD_ISSET(tmp->fd, &writefds))
 				send_pending(tmp);
 
 			if(FD_ISSET(tmp->fd, &readfds))
 			{
-				ret=recv(tmp->fd, buf, sizeof(buf)-1, 0);
+				ret = recv(tmp->fd, buf, sizeof(buf)-1, 0);
 				if(ret<=0)
 				{
 					sprintf(msg, "server: client %d just left\n", tmp->id);
 					broadcast(clients, tmp->fd, msg, strlen(msg));
 					remove_client(&clients, tmp);
 				}
-				else{
+				else
+				{
 					buf[ret]='\0';
 					tmp->in=str_join(tmp->in, buf);
 
@@ -285,8 +290,8 @@ int main(int argc, char **argv)
 					}
 				}
 			}
+
 			tmp=next;
 		}
-
 	}
 }
